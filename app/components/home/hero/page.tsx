@@ -3,7 +3,7 @@ import { Search } from "lucide-react";
 
 const Hero = () => {
   return (
-    <section className="w-full bg-linear-to-r from-[#A2D9FF] to-[#6EC8FF] py-20 px-4">
+    <section className="w-full h-[100vh] bg-linear-to-b from-[#63D9FA] to-[#F5F5F5] py-20 px-4">
       <div className="max-w-4xl mx-auto text-center">
         {/* Happy Users */}
         <div className="flex items-center justify-center gap-2 mb-3">
