@@ -7,14 +7,24 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum Role {
+  COMPANY
+  CLIENT
+  ADMIN
+}
+
 model User {
   id        String   @id @default(cuid())
   email     String   @unique
   name      String?
   password  String?
-  sessions  Session[]
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  biodata   Biodata?
+  role      Role       @default(CLIENT)
+  sessions  Session[]
+  lowongans Lowongan[]
 }
 
 model Session {
@@ -24,4 +34,72 @@ model Session {
   expiresAt    DateTime
   sessionToken String   @unique
   createdAt    DateTime @default(now())
+}
+
+model Biodata {
+  id          String   @id @default(cuid())
+  userId      String   @unique
+  firstName   String
+  lastName    String?
+  fullName    String
+  address     String?
+  phone       String?
+  documentUrl String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  skills   Skill[] @relation("BiodataSkills")
+  user     User    @relation(fields: [userId], references: [id])
+  bidang   Bidang? @relation(fields: [bidangId], references: [id])
+  bidangId String?
+}
+
+model Lowongan {
+  id          String   @id @default(cuid())
+  userId      String
+  slug        String   @unique
+  title       String
+  description String
+  company     String
+  location    String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  kualifikasi         String[] @default([])
+  tugasTanggungJawab  String[] @default([])
+  kualifikasiTambahan String[] @default([])
+
+  user          User           @relation(fields: [userId], references: [id])
+  bidang        Bidang?        @relation(fields: [bidangId], references: [id])
+  bidangId      String?
+  sendLowongans SendLowongan[]
+}
+
+model Bidang {
+  id       String     @id @default(uuid())
+  slug     String     @unique
+  nama     String
+  biodata  Biodata[]
+  lowongan Lowongan[]
+}
+
+model SendLowongan {
+  id          String   @id @default(cuid())
+  lowonganId  String
+  email       String
+  coverLetter String?
+  createdAt   DateTime @default(now())
+  sentAt      DateTime @default(now())
+
+  lowongan Lowongan @relation(fields: [lowonganId], references: [id])
+}
+
+model Skill {
+  id        String   @id @default(cuid())
+  name      String   @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  biodata   Biodata? @relation("BiodataSkills", fields: [biodataId], references: [id])
+  biodataId String?
 }
