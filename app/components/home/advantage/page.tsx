@@ -21,43 +21,46 @@ const Advantage = () => {
       }}
       className="relative w-full h-[100vh] flex px-8 overflow-hidden bg-[#F5F5F5]"
     >
-      <div className="flex items-center w-full">
-
+      <div className="flex items-center w-full gap-10">
         {/* Left Side — Title */}
-        <div className="flex flex-col justify-center">
+        <div className="flex flex-col max-w-lg mt-[200px] ms-30">
           <h2 className="text-4xl md:text-5xl font-semibold text-black leading-tight">
             Kelebihan Kami
           </h2>
-          <p className="mt-4 text-gray-700 text-lg max-w-md">
-            Kami menyediakan berbagai keunggulan untuk membantu Anda menemukan solusi terbaik.
+          <p className="mt-4 text-gray-700 text-lg">
+            Kami menyediakan berbagai keunggulan untuk membantu Anda menemukan
+            solusi terbaik.
           </p>
         </div>
 
         {/* Right Side — Cards */}
-        <div className="flex justify-center lg:justify-end">
-          <div className="relative h-[500px] w-[350px] md:w-[400px]">
-            <CardSwap
-              cardDistance={60}
-              verticalDistance={70}
-              delay={5000}
-              pauseOnHover={false}
-            >
-              <Card>
-                <h3 className="text-xl font-bold">Card 1</h3>
-                <p>Your content here</p>
-              </Card>
-              <Card>
-                <h3 className="text-xl font-bold">Card 2</h3>
-                <p>Your content here</p>
-              </Card>
-              <Card>
-                <h3 className="text-xl font-bold">Card 3</h3>
-                <p>Your content here</p>
-              </Card>
-            </CardSwap>
+        <div className="relative w-full">
+          <div className="flex justify-around ms-[500px]">
+            <div className="relative h-[600px] w-[450px] md:w-[400px]">
+              <CardSwap
+                cardDistance={70}
+                verticalDistance={80}
+                delay={5000}
+                pauseOnHover={false}
+                height={500}
+                width={700}
+              >
+                <Card className="p-5">
+                  <h3 className="text-xl font-bold">Reliable</h3>
+                  <p>Your content here</p>
+                </Card>
+                <Card className="p-5">
+                  <h3 className="text-xl font-bold">Smooth</h3>
+                  <p>Your content here</p>
+                </Card>
+                <Card className="p-5">
+                  <h3 className="text-xl font-bold">Customizable</h3>
+                  <p>Your content here</p>
+                </Card>
+              </CardSwap>
+            </div>
           </div>
         </div>
-
       </div>
     </div>
   );
