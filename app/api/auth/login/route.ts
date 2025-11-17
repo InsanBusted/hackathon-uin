@@ -16,10 +16,10 @@ export async function POST(request: Request) {
       );
     }
 
-    const isEmail = identifier.includes("@");
-
     const user = await prisma.user.findFirst({
-      where: isEmail ? { email: identifier } : { username: identifier },
+      where: {
+        OR: [{ email: identifier }, { username: identifier }],
+      },
     });
 
     if (!user) {
@@ -29,7 +29,6 @@ export async function POST(request: Request) {
       );
     }
 
-   
     const isMatch = await bcrypt.compare(password, user.password || "");
 
     if (!isMatch) {
