@@ -120,3 +120,23 @@
     @apply bg-background text-foreground;
   }
 }
+
+.bg-card {
+  background: radial-gradient(
+    226.67% 138.42% at 50.74% 2.63%,
+    #63d8fa 12.98%,
+    #90d8ed 42.79%,
+    #b8d9e2 60.58%,
+    #c9d9dd 81.25%,
+    #d9d9d9 100%
+  );
+}
+
+.text-blue-custom {
+  background: linear-gradient(
+    88.14deg,
+    #130f26 -2.67%,
+    #0a2f5a 48.06%,
+    #64b5f6 98.79%
+  );
+}
