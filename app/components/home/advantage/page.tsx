@@ -7,7 +7,7 @@ const Advantage = () => {
     "url('/image/blueCircle.png')",
   ];
 
-  const PositionImage = () => ["-30px 30px", "900px 150px"];
+  const PositionImage = () => ["-30px 30px", "900px 300px"];
 
   const backgroundSize = () => ["1500px", "1500px"];
 
@@ -19,12 +19,12 @@ const Advantage = () => {
         backgroundSize: backgroundSize().join(", "),
         backgroundRepeat: "no-repeat",
       }}
-      className="relative w-full h-[100vh] flex px-8 overflow-hidden bg-[#F5F5F5]"
+      className="relative w-full h-[200vh] flex overflow-hidden bg-[#F5F5F5]"
     >
       <div className="flex items-center w-full gap-10">
         {/* Left Side — Title */}
         <div className="flex flex-col max-w-lg mt-[200px] ms-30">
-          <h2 className="text-4xl md:text-5xl font-semibold text-black leading-tight">
+          <h2 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-[#130F26] via-[#0A2F5A] to-[#64B5F6] bg-clip-text text-transparent">
             Kelebihan Kami
           </h2>
           <p className="mt-4 text-gray-700 text-lg">
@@ -45,17 +45,69 @@ const Advantage = () => {
                 height={500}
                 width={700}
               >
-                <Card className="p-5">
-                  <h3 className="text-xl font-bold">Reliable</h3>
-                  <p>Your content here</p>
+                {/* CARD 1 */}
+                <Card style={{
+                    background:
+                      "linear-gradient(135deg, #130F26, #0A2F5A, #64B5F6)",
+                  }}
+                  className="relative rounded-xl shadow-lg">
+                  <h3 className="text-xl font-bold text-white p-3">
+                    Automation AI
+                  </h3>
+                  <hr className="border-t-2 border-white mb-4" />
+
+                  <div className="flex justify-center items-center h-[400px]">
+                    <Image
+                      src="/image/VectorAI.png"
+                      width={200}
+                      height={100}
+                      alt=""
+                    />
+                  </div>
                 </Card>
-                <Card className="p-5">
-                  <h3 className="text-xl font-bold">Smooth</h3>
-                  <p>Your content here</p>
+
+                {/* CARD 2 */}
+                <Card
+                  style={{
+                    background:
+                      "linear-gradient(135deg, #130F26, #0A2F5A, #64B5F6)",
+                  }}
+                  className="relative rounded-xl shadow-lg"
+                >
+                  <h3 className="text-xl font-bold text-white p-3">
+                    Automation AI
+                  </h3>
+                  <hr className="border-t-2 border-white mb-4" />
+
+                  <div className="flex justify-center items-center h-[400px]">
+                    <Image
+                      src="/image/VectorAI.png"
+                      width={200}
+                      height={100}
+                      alt=""
+                    />
+                  </div>
                 </Card>
-                <Card className="p-5">
-                  <h3 className="text-xl font-bold">Customizable</h3>
-                  <p>Your content here</p>
+
+                {/* CARD 3 */}
+                <Card style={{
+                    background:
+                      "linear-gradient(135deg, #130F26, #0A2F5A, #64B5F6)",
+                  }}
+                  className="relative rounded-xl shadow-lg">
+                  <h3 className="text-xl font-bold text-white p-3">
+                    Automation AI
+                  </h3>
+                  <hr className="border-t-2 border-white mb-4" />
+
+                  <div className="flex justify-center items-center h-[400px]">
+                    <Image
+                      src="/image/VectorAI.png"
+                      width={200}
+                      height={100}
+                      alt=""
+                    />
+                  </div>
                 </Card>
               </CardSwap>
             </div>

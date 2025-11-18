@@ -52,10 +52,10 @@ const JobsList: Job[] = [
 
 const JobsComponent = () => {
   return (
-    <div className="bg-white p-10">
-      <h1 className="text-black text-4xl font-bold mb-10 text-center">
+    <div className="bg-gradient-to-b from-[#F5F5F5] to-[#FFFFFF] p-10">
+      <h2 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-[#130F26] via-[#0A2F5A] to-[#64B5F6] bg-clip-text text-transparent mb-10">
         Daftar Pekerjaan
-      </h1>
+      </h2>
 
       <div className="flex justify-center bg-card rounded-md p-6">
         <div className="flex gap-x-10">
