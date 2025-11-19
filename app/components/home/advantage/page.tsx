@@ -1,7 +1,19 @@
+"use client";
 import CardSwap, { Card } from "@/components/CardSwap";
 import Image from "next/image";
+import { useState } from "react";
 
 const Advantage = () => {
+
+  const [activeIndex, setActiveIndex] = useState(0);
+
+  const cardTexts = () => [
+    "Automation AI membantu meningkatkan efisiensi melalui proses otomatisasi.",
+    "Data Analytics memberikan wawasan untuk pengambilan keputusan yang tepat.",
+    "Integrasi Sistem mempermudah penghubungan berbagai platform bisnis."
+    
+  ]
+
   const BackgroundImage = () => [
     "url('/image/blueCircle.png')",
     "url('/image/blueCircle.png')",
@@ -24,12 +36,11 @@ const Advantage = () => {
       <div className="flex items-center w-full gap-10">
         {/* Left Side — Title */}
         <div className="flex flex-col max-w-lg mt-[200px] ms-30">
-          <h2 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-[#130F26] via-[#0A2F5A] to-[#64B5F6] bg-clip-text text-transparent">
+          <h2 className="text-4xl md:text-5xl font-bold bg-linear-to-r from-[#130F26] via-[#0A2F5A] to-[#64B5F6] bg-clip-text text-transparent">
             Kelebihan Kami
           </h2>
           <p className="mt-4 text-gray-700 text-lg">
-            Kami menyediakan berbagai keunggulan untuk membantu Anda menemukan
-            solusi terbaik.
+            {cardTexts()[activeIndex]}
           </p>
         </div>
 
@@ -44,6 +55,7 @@ const Advantage = () => {
                 pauseOnHover={false}
                 height={500}
                 width={700}
+                onChange={(i) => setActiveIndex(i)}
               >
                 {/* CARD 1 */}
                 <Card style={{
@@ -75,7 +87,7 @@ const Advantage = () => {
                   className="relative rounded-xl shadow-lg"
                 >
                   <h3 className="text-xl font-bold text-white p-3">
-                    Automation AI
+                    Data Analyst
                   </h3>
                   <hr className="border-t-2 border-white mb-4" />
 
@@ -96,7 +108,7 @@ const Advantage = () => {
                   }}
                   className="relative rounded-xl shadow-lg">
                   <h3 className="text-xl font-bold text-white p-3">
-                    Automation AI
+                    Network Engineering
                   </h3>
                   <hr className="border-t-2 border-white mb-4" />
 
