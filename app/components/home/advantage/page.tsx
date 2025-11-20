@@ -4,39 +4,21 @@ import Image from "next/image";
 import { useState } from "react";
 
 const Advantage = () => {
-
   const [activeIndex, setActiveIndex] = useState(0);
 
   const cardTexts = () => [
     "Automation AI membantu meningkatkan efisiensi melalui proses otomatisasi.",
     "Data Analytics memberikan wawasan untuk pengambilan keputusan yang tepat.",
-    "Integrasi Sistem mempermudah penghubungan berbagai platform bisnis."
-    
-  ]
-
-  const BackgroundImage = () => [
-    "url('/image/blueCircle.png')",
-    "url('/image/blueCircle.png')",
+    "Integrasi Sistem mempermudah penghubungan berbagai platform bisnis.",
+    "Blockchain memberikan wawasan untuk pengambilan keputusan yang tepat.",
   ];
 
-  const PositionImage = () => ["-30px 30px", "900px 300px"];
-
-  const backgroundSize = () => ["1500px", "1500px"];
-
   return (
-    <div
-      style={{
-        backgroundImage: BackgroundImage().join(", "),
-        backgroundPosition: PositionImage().join(", "),
-        backgroundSize: backgroundSize().join(", "),
-        backgroundRepeat: "no-repeat",
-      }}
-      className="relative w-full h-[200vh] flex overflow-hidden bg-[#F5F5F5]"
-    >
+    <div className="relative w-full h-[130vh] flex overflow-hidden bg-[#F5F5F5]">
       <div className="flex items-center w-full gap-10">
         {/* Left Side — Title */}
         <div className="flex flex-col max-w-lg mt-[200px] ms-30">
-          <h2 className="text-4xl md:text-5xl font-bold bg-linear-to-r from-[#130F26] via-[#0A2F5A] to-[#64B5F6] bg-clip-text text-transparent">
+          <h2 className="text-4xl md:text-5xl font-bold bg-linear-to-b from-[#63D9FA] to-[#1565C0] bg-clip-text text-transparent">
             Kelebihan Kami
           </h2>
           <p className="mt-4 text-gray-700 text-lg">
@@ -57,12 +39,13 @@ const Advantage = () => {
                 width={700}
                 onChange={(i) => setActiveIndex(i)}
               >
-                {/* CARD 1 */}
-                <Card style={{
+                <Card
+                  style={{
                     background:
                       "linear-gradient(135deg, #130F26, #0A2F5A, #64B5F6)",
                   }}
-                  className="relative rounded-xl shadow-lg">
+                  className="relative rounded-xl shadow-lg"
+                >
                   <h3 className="text-xl font-bold text-white p-3">
                     Automation AI
                   </h3>
@@ -78,7 +61,6 @@ const Advantage = () => {
                   </div>
                 </Card>
 
-                {/* CARD 2 */}
                 <Card
                   style={{
                     background:
@@ -101,14 +83,36 @@ const Advantage = () => {
                   </div>
                 </Card>
 
-                {/* CARD 3 */}
-                <Card style={{
+                <Card
+                  style={{
                     background:
                       "linear-gradient(135deg, #130F26, #0A2F5A, #64B5F6)",
                   }}
-                  className="relative rounded-xl shadow-lg">
+                  className="relative rounded-xl shadow-lg"
+                >
                   <h3 className="text-xl font-bold text-white p-3">
                     Network Engineering
+                  </h3>
+                  <hr className="border-t-2 border-white mb-4" />
+
+                  <div className="flex justify-center items-center h-[400px]">
+                    <Image
+                      src="/image/VectorAI.png"
+                      width={200}
+                      height={100}
+                      alt=""
+                    />
+                  </div>
+                </Card>
+                <Card
+                  style={{
+                    background:
+                      "linear-gradient(135deg, #130F26, #0A2F5A, #64B5F6)",
+                  }}
+                  className="relative rounded-xl shadow-lg"
+                >
+                  <h3 className="text-xl font-bold text-white p-3">
+                    Block Chain
                   </h3>
                   <hr className="border-t-2 border-white mb-4" />
 
