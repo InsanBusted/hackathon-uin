@@ -10,14 +10,14 @@ export default function Home() {
         <Hero />
       </section>
       <section>
-        <Advantage />
-      </section>
-      <section>
         <JobsComponent />
       </section>
       <section>
-        <Pricing />
+        <Advantage />
       </section>
+      {/* <section>
+        <Pricing />
+      </section> */}
     </>
   );
 }
