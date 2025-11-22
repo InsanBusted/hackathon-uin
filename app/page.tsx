@@ -1,7 +1,7 @@
 import Header from "@/components/Header/page";
-import Advantage from "./components/home/advantage/page";
-import Hero from "./components/home/hero/page";
-import JobsComponent from "./components/home/jobs/page";
+import Advantage from "@/components/home/advantage/page";
+import Hero from "@/components/home/hero/page";
+import JobsComponent from "@/components/home/jobs/page";
 // import Navbar from "@/components/Navbar/Navbar";
 
 export default function Home() {

@@ -52,18 +52,25 @@ const JobsList: Job[] = [
 
 const JobsComponent = () => {
   return (
-    <div className="bg-linear-to-b h-auto from-[#F5F5F5] to-[#FFFFFF] p-10">
-      <h2 className="text-4xl md:text-5xl font-bold bg-linear-to-r from-[#130F26] via-[#0A2F5A] to-[#64B5F6] bg-clip-text text-transparent mb-10">
-        Daftar Pekerjaan
-      </h2>
 
-      <div className="flex justify-center bg-card rounded-md p-6">
-        <div className="flex gap-x-10">
+    <div className="w-full h-[750px] bg-linear-to-b from-[#F5F5F5] via-[#FFFFFF] to-[#F5F5F5] flex flex-col items-center gap-10 py-16 px-4">
+
+      {/* HERO SECTION */}
+      <div className="text-center mt-5">
+        <h1 className="text-3xl md:text-4xl font-bold bg-linear-to-b from-[#63D9FA] to-[#1565C0] bg-clip-text text-transparent">
+          Daftar Pekerjaan
+        </h1>
+      </div>
+
+      {/* JOB CARDS */}
+      <div className="w-full flex justify-center mt-10">
+        <div className="flex gap-8">
           {JobsList.map((job) => (
             <div
               key={job.id}
-              className="bg-white border shadow-sm rounded-xl p-6 hover:shadow-md transition w-[380px] h-[248px]"
+              className="bg-white border shadow-md rounded-2xl p-6 w-[300px] hover:shadow-xl transition"
             >
+              {/* TOP: Logo + Title */}
               <div className="flex items-center gap-4 mb-4">
                 <div className="relative w-14 h-14">
                   <Image
@@ -74,44 +81,68 @@ const JobsComponent = () => {
                   />
                 </div>
 
-                <div>
-                  <h2 className="text-black text-lg font-bold leading-tight">
+                <div className="flex-1">
+                  <h2 className="text-black text-sm font-bold leading-tight line-clamp-1">
                     {job.title}
                   </h2>
-                  <p className="text-gray-700 text-sm">{job.company}</p>
+                  <p className="text-gray-700 text-xs line-clamp-1">
+                    {job.company}
+                  </p>
                 </div>
+
+                {/* Bookmark */}
+                <button className="text-gray-400 hover:text-blue-500">
+                  <i className="fa-regular fa-bookmark text-lg"></i>
+                </button>
+              </div>
+
+              {/* TAGS */}
+              <div className="flex flex-wrap gap-2 mb-4">
+                {job.type.map((t, index) => (
+                  <span
+                    key={index}
+                    className="px-3 py-1 rounded-lg bg-blue-50 text-blue-600 text-xs font-semibold"
+                  >
+                    {t.name}
+                  </span>
+                ))}
               </div>
 
               {/* LOCATION */}
-              <p className="text-gray-700 text-sm mb-1">
-                <span className="font-semibold">Lokasi:</span> {job.location}
-              </p>
+              <div className="flex items-center text-gray-700 text-xs mb-2">
+                <i className="fa-solid fa-location-dot text-blue-500 mr-2"></i>
+                <span>{job.location}</span>
+              </div>
 
-              {/* TYPE */}
-              <p className="text-gray-700 text-sm mb-1">
-                <span className="font-semibold">Tipe:</span>{" "}
-                {job.type.map((t) => t.name).join(", ")}
-              </p>
+              {/* DEADLINE + STATUS */}
+              <div className="flex items-center justify-between mt-2">
+                <div className="flex items-center text-gray-700 text-xs">
+                  <i className="fa-regular fa-calendar mr-1"></i>
+                  <span>
+                    Apply before: <b>{job.dueDate}</b>
+                  </span>
+                </div>
 
-              {/* STATUS */}
-              <p
-                className={`mt-2 inline-block px-3 py-1 text-xs rounded-lg font-semibold ${
-                  job.status === "Closed"
-                    ? "bg-red-100 text-red-600"
-                    : "bg-green-100 text-green-600"
-                }`}
-              >
-                {job.status}
-              </p>
-
-              {/* DEADLINE */}
-              <p className="text-gray-600 text-xs mt-3">
-                Batas Waktu:{" "}
-                <span className="font-medium text-black">{job.dueDate}</span>
-              </p>
+                <span
+                  className={`px-3 py-1 text-xs rounded-lg font-semibold ${
+                    job.status === "Closed"
+                      ? "bg-red-100 text-red-600"
+                      : "bg-green-100 text-green-600"
+                  }`}
+                >
+                  {job.status === "Closed" ? "Job Closed" : job.status}
+                </span>
+              </div>
             </div>
           ))}
         </div>
+      </div>
+
+      {/* BUTTON */}
+      <div className="flex justify-center mt-10">
+        <button className="bg-[#63D9FA] hover:bg-[#0A2F5A] transition-colors duration-300 text-white font-bold py-2 px-6 rounded-lg">
+          Temukan lebih banyak pekerjaan
+        </button>
       </div>
     </div>
   );

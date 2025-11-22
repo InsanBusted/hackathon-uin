@@ -3,24 +3,22 @@
 import Link from "next/link";
 import { useState, useRef } from "react";
 import { Menu } from "lucide-react";
-import { usePathname } from "next/navigation";
 import MobileNav from "./MobileNav";
 import { Button } from "../ui/button";
 
 const Nav = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState<number | null>(null);
-  const pathname = usePathname();
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   const links = [
     { title: "Home", path: "/" },
     {
-      title: "Services",
+      title: "Jobs",
       subLinks: [
-        { title: "Web Development", path: "/services/web" },
-        { title: "Mobile App", path: "/services/mobile" },
-        { title: "AI Automation", path: "/services/ai" },
+        { title: "Job Seeker", path: "/jobs/job-seeker" },
+        { title: "Employer", path: "/jobs/employer" },
+        { title: "Internships", path: "/jobs/internships" },
       ],
     },
   ];
