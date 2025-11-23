@@ -13,14 +13,14 @@ const Advantage = () => {
         </div>
 
         {/* Card 1 */}
-        <div className="flex flex-col md:flex-row gap-10 items-center">
+        <div className="flex flex-col md:flex-row gap-10">
           {/* Card Image */}
-          <div className="w-full md:w-[460px] h-[400px] md:h-[460px] bg-gradient-to-br from-[#1565C0] to-[#31BAFF] rounded-2xl shadow-xl flex flex-col items-center justify-center p-4">
+          <div className="w-full md:w-[460px] h-[400px] md:h-[460px] bg-linear-to-br from-[#1565C0] to-[#31BAFF] rounded-2xl shadow-xl flex flex-col items-center p-4">
             <h3 className="text-xl font-semibold text-white text-center">
               Automation AI
             </h3>
             <hr className="border border-white/20 w-full mt-2" />
-            <div className="mt-5 md:mt-10">
+            <div className="mt-5 md:mt-20">
               <Image
                 src="/image/VectorAI.png"
                 width={200}
@@ -45,14 +45,14 @@ const Advantage = () => {
         </div>
 
         {/* Card 2 */}
-        <div className="flex flex-col md:flex-row-reverse gap-10 items-center">
+        <div className="flex flex-col md:flex-row-reverse gap-10">
           {/* Card Image */}
-          <div className="w-full md:w-[460px] h-[400px] md:h-[460px] bg-gradient-to-br from-[#1565C0] to-[#31BAFF] rounded-2xl shadow-xl flex flex-col items-center justify-center p-4">
+          <div className="w-full md:w-[460px] h-[400px] md:h-[460px] bg-linear-to-br from-[#1565C0] to-[#31BAFF] rounded-2xl shadow-xl flex flex-col items-center p-4">
             <h3 className="text-xl font-semibold text-white text-center">
               Blockchain
             </h3>
             <hr className="border border-white/20 w-full mt-2" />
-            <div className="mt-5 md:mt-10">
+            <div className="mt-5 md:mt-20">
               <Image
                 src="/image/iconShield.png"
                 width={200}
@@ -77,14 +77,14 @@ const Advantage = () => {
         </div>
 
         {/* Card 3 */}
-        <div className="flex flex-col md:flex-row gap-10 items-center">
+        <div className="flex flex-col md:flex-row gap-10">
           {/* Card Image */}
-          <div className="w-full md:w-[460px] h-[400px] md:h-[460px] bg-gradient-to-br from-[#1565C0] to-[#31BAFF] rounded-2xl shadow-xl flex flex-col items-center justify-center p-4">
+          <div className="w-full md:w-[460px] h-[400px] md:h-[460px] bg-linear-to-br from-[#1565C0] to-[#31BAFF] rounded-2xl shadow-xl flex flex-col items-center p-4">
             <h3 className="text-xl font-semibold text-white text-center">
               Automation AI
             </h3>
             <hr className="border border-white/20 w-full mt-2" />
-            <div className="mt-5 md:mt-10">
+            <div className="mt-5 md:mt-20">
               <Image
                 src="/image/iconShield.png"
                 width={200}

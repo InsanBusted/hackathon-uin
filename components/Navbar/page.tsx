@@ -16,7 +16,7 @@ const Nav = () => {
     {
       title: "Jobs",
       subLinks: [
-        { title: "Job Seeker", path: "/jobs/job-seeker" },
+        { title: "Job Seeker", path: "/jobs/jobs-seeker" },
         { title: "Employer", path: "/jobs/employer" },
         { title: "Internships", path: "/jobs/internships" },
       ],
@@ -51,6 +51,7 @@ const Nav = () => {
               onMouseLeave={handleMouseLeave}
             >
               {/* Menu utama */}
+              <Link href={link.path || '#'}>
               <button className="text-[1.1rem] flex items-center gap-1 font-medium text-black">
                 {link.title}
                 {link.subLinks && (
@@ -69,6 +70,7 @@ const Nav = () => {
                   </svg>
                 )}
               </button>
+              </Link>
 
               {/* Submenu */}
               {link.subLinks && dropdownOpen === idx && (
