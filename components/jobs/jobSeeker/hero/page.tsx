@@ -1,6 +1,6 @@
 const Hero = () => {
   return (
-    <section className="w-full h-[100vh] bg-linear-to-b from-[#63D9FA] to-[#F5F5F5] py-20 px-4">
+    <section className="w-full">
       <div className="max-w-4xl mx-auto text-center">
         {/* Happy Users */}
         <div className="flex items-center justify-center gap-2 mb-3">
