@@ -45,11 +45,11 @@ const Hero = () => {
             />
             <button className="flex items-center justify-center gap-2 bg-[#5CC7FF] text-white text-2xl px-6 py-2 rounded-full font-semibold">
               <Search size={30} />
-              Search
+              <span className="hidden md:block">Search</span>
             </button>
           </div>
           {/* Logos */}
-          <div className="flex items-center justify-around mt-6 opacity-80">
+          <div className="flex items-center flex-wrap  justify-around mt-6 opacity-80">
             <Image
               src="/image/logoGojek.png"
               alt="Gojek"

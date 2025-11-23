@@ -6,8 +6,10 @@ import JobsComponent from "@/components/home/jobs/page";
 
 export default function Home() {
   return (
-    <div className="min-h-screen">
-      <Header />
+    <div>
+      <section>
+        <Header />
+      </section>
       <section className="pt-5 bg-linear-to-b from-[#63D9FA] to-[#F5F5F5]">
         <Hero />
       </section>
