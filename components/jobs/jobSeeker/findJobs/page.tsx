@@ -214,7 +214,7 @@ const FindJobs = () => {
           {filteredJobs.map((job, index) => (
             <div
               key={index}
-              className="border rounded-xl shadow-sm p-5 hover:shadow-md transition bg-white"
+              className="border rounded-xl shadow-sm p-5 hover:shadow-md bg-white"
             >
               {/* Header */}
               <div className="gap-4 mb-4">
