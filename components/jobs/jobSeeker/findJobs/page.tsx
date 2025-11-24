@@ -5,64 +5,38 @@ import { useState } from "react";
 
 const listJobs = [
   {
-    image: "/image/bfiFinance.png",
-    jobFunction: "Marketing Dana Tunai Mobil - BFI Semarang 3",
-    company: "BFI Finance Regional Semarang",
-    jobType: "Karyawan Tetap",
-    jobLevel: "Staff",
-    workplace: "Work From Office",
-    applyDate: "Apply Before 18 Dec 2025",
-    location: "Semarang Tengah, Kota Semarang",
+    image: "/image/bni.png",
+    company: "PT Bank negara indonesia (persero) Tbk",
+    jobFunction:
+      "Internship digital learning and knowledge management team (DKM)",
+    location: "Kota adm, Jakarta Barat",
+    position: "4 Position",
+    applicant: "25 Applicant",
+    jobType: "Contract employees",
+    workplace: "WFO",
+    applyDate: "Apply Before 31 Dec 2025",
   },
   {
-    image: "/image/bfiFinance.png",
-    jobFunction: "MT Asset Management - Kalimantan Selatan",
-    company: "BFI Finance Regional Kalimantan",
-    jobType: "Karyawan Tetap",
-    jobLevel: "Officer",
-    workplace: "Work From Office",
-    applyDate: "Apply Before 15 Dec 2025",
-    location: "Kalimantan Tengah (Indonesia)",
-  },
-  {
-    image: "/image/briFinance.png",
-    jobFunction: "Sekretaris Direksi",
+    image: "/image/bri.png",
     company: "BRI Finance",
-    jobType: "Karyawan Kontrak",
-    jobLevel: "Staff",
-    workplace: "Work From Office",
-    applyDate: "Apply Before 18 Dec 2025",
+    jobFunction: "Board Secretary",
     location: "Kota Jakarta Selatan, DKI Jakarta",
+    position: "2 Position",
+    applicant: "96 Applicant",
+    jobType: "Contract employees",
+    workplace: "WFO",
+    applyDate: "Apply Before 18 Dec 2025",
   },
   {
     image: "/image/persada.png",
+    company: "PT.Personel Alih Daya TBK",
     jobFunction: "Engineer On Site",
-    company: "PT.Personel Alih Daya",
-    jobType: "Karyawan Kontrak",
-    jobLevel: "Staff",
-    workplace: "Work From Office",
-    applyDate: "Apply Before 31 Dec 2025",
     location: "DKI Jakarta (Indonesia)",
-  },
-  {
-    image: "/image/persada.png",
-    jobFunction: "Document Control",
-    company: "PT.Personel Alih Daya",
-    jobType: "Karyawan Kontrak",
-    jobLevel: "Staff",
-    workplace: "Work From Office",
+    position: "3 Position",
+    applicant: "100 Applicant",
+    jobType: "Contract employees",
+    workplace: "WFO",
     applyDate: "Apply Before 31 Dec 2025",
-    location: "DKI Jakarta (Indonesia)",
-  },
-  {
-    image: "/image/persada.png",
-    jobFunction: "Project Manager Cybersecurity",
-    company: "PT.Personel Alih Daya",
-    jobType: "Karyawan Kontrak",
-    jobLevel: "Staff",
-    workplace: "Work From Office",
-    applyDate: "Apply Before 31 Dec 2025",
-    location: "DKI Jakarta (Indonesia)",
   },
 ];
 const dropdownData = {
@@ -179,16 +153,13 @@ const FindJobs = () => {
     const matchJobFunction =
       filterJobFunction.length === 0 ||
       filterJobFunction.includes(job.jobFunction);
-    const matchJobLevel =
-      filterJobLevel.length === 0 || filterJobLevel.includes(job.jobLevel);
 
     return (
       matchesSearch &&
       matchJobType &&
       matchWorkplace &&
       matchLocation &&
-      matchJobFunction &&
-      matchJobLevel
+      matchJobFunction
     );
   });
   return (
@@ -238,22 +209,35 @@ const FindJobs = () => {
           setSelected={setFilterJobLevel}
         />
       </div>
-      <div className="flex flex-col gap-6">
-        {filteredJobs.map((job, index) => (
-          <div
-            key={index}
-            className="border rounded-xl shadow-sm p-5 hover:shadow-md transition bg-white"
-          >
-            {/* Header */}
-            <div className="flex items-center gap-4 mb-4">
-              <Image src={job.image} alt={job.company} width={70} height={70} />
+      <div className="flex items-center gap-3">
+        <div className="flex flex-col w-[30%] gap-6">
+          {filteredJobs.map((job, index) => (
+            <div
+              key={index}
+              className="border rounded-xl shadow-sm p-5 hover:shadow-md transition bg-white"
+            >
+              {/* Header */}
+              <div className="gap-4 mb-4">
+                <Image
+                  src={job.image}
+                  alt={job.company}
+                  width={70}
+                  height={70}
+                />
 
-              <div className="flex flex-col gap-2">
-                <h3 className="font-bold text-xl text-[#0A2F5A]">
-                  {job.jobFunction}
-                </h3>
-                <div className="flex items-center gap-3">
-                  <p className="text-lg text-[#626262]">{job.company}</p>
+                <div className="flex flex-col">
+                  <h3 className="font-bold text-lg text-[#626262]">
+                    {job.company}
+                  </h3>
+                  <p className="font-bold text-xl text-[#0A2F5A] mt-3">
+                    {job.jobFunction}
+                  </p>
+                  <p className="text-md font-semibold text-[#626262]">
+                    {job.location}
+                  </p>
+                  <p className="text-sm text-[#626262] mt-3">
+                    {job.position} &#8226; {job.applicant}
+                  </p>
 
                   {/* Job Details */}
 
@@ -262,29 +246,17 @@ const FindJobs = () => {
                       {job.jobType}
                     </p>
                     <p className="bg-[#F5F5F5] rounded-md px-3 py-1 text-[#3204A8]">
-                      {job.jobLevel}
-                    </p>
-                    <p className="bg-[#F5F5F5] rounded-md px-3 py-1 text-[#3204A8]">
                       {job.workplace}
                     </p>
                   </div>
-                  <div className="flex items-center gap-5">
-                    <div className="flex items-center gap-1">
-                      <MapPin size={20} className="text-[#626262]" />
-                      <p className="text-sm font-semibold text-[#626262]">
-                        {job.location}
-                      </p>
-                    </div>
-                    <Bookmark size={20} className="text-[#3204A8]" />
-                  </div>
                 </div>
-                <p className="text-sm font-semibold text-[#626262]">
+                <p className="text-sm font-semibold text-[#626262] mt-6">
                   {job.applyDate}
                 </p>
               </div>
             </div>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
     </div>
   );
