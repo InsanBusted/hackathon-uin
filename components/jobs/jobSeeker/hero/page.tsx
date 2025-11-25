@@ -4,10 +4,10 @@ import Link from "next/link";
 
 const Hero = () => {
   return (
-    <section className="w-full h-screen flex items-center flex-wrap justify-around">
-      <div>
+    <section className="mt-25 gap-5 md:mt-10 px-3 w-full h-screen flex flex-col md:flex-row md:justify-around items-center">
+      <div className="flex items-center flex-col">
         {/* Title */}
-        <h1 className="mt-10 text-3xl sm:text-4xl md:text-5xl font-bold text-white leading-tight">
+        <h1 className="text-2xl sm:text-4xl md:text-5xl font-bold text-white leading-tight">
           Lupakan Apply Satu per Satu.
           <br />
           Biar{" "}
@@ -18,10 +18,10 @@ const Hero = () => {
         </h1>
 
         {/* Subtitle */}
-        <p className="text-black max-w-2xl mx-auto mt-4">
+        <p className="text-white font-sans max-w-2xl mx-auto mt-4">
           Algoritma cerdas Lokerin menganalisis profil Anda, mencocokkannya
           dengan ribuan lowongan, dan mengirimkan lamaran terbaik secara
-          otomatis. Lebih banyak hasil, lebih sedikit usaha.
+          otomatis.
         </p>
         <div className="flex items-center justify-center mt-10">
           <Link href="/">
@@ -36,15 +36,15 @@ const Hero = () => {
         </div>
       </div>
 
-      <div className="relative flex items-end justify-center">
-        <div className="absolute -bottom-20 w-[450px] h-[480px] bg-white rounded-full z-10 shadow-2xl opacity-95" />
-        <div className="absolute bottom-0 w-[300px] h-[80px] bg-black/25 rounded-full blur-2xl z-0" />
+      <div className="relative flex items-start justify-center">
+        <div className="absolute -bottom-20 w-[300px] h-[300px] md:w-[450px] md:h-[480px] bg-white rounded-full z-10 shadow-2xl opacity-95" />
+        <div className="absolute bottom-0 w-[300px] h-20 bg-black/25 rounded-full blur-2xl z-0" />
         <div className="absolute -bottom-20 w-[380px] h-[380px] bg-white/10 rounded-full blur-3xl z-0" />
 
         {/* Maskot */}
         <Image
           src={maskot}
-          width={350}
+          width={200}
           height={80}
           alt="Maskot"
           className="z-20 relative drop-shadow-2xl"

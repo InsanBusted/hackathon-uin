@@ -7,8 +7,8 @@ export default function JobSeeker() {
       <section className="pt-5">
         <Hero />
       </section>
-      <section className="pt-5">
-        <FindJobs />
+      <section className="pt-5 pb-32">
+        {/* <FindJobs /> */}
       </section>
       <section></section>
       {/* <section>
