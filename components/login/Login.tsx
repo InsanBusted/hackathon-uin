@@ -16,7 +16,7 @@ const Login = () => {
 
   return (
     <div className="bg-linear-to-b from-[rgba(21,101,192,1)] to-[rgba(10,47,90,1)] flex justify-center items-center min-h-screen p-4">
-      <CardLogin form={form} onSubmit={onSubmit} />
+      {/* <CardLogin form={form} onSubmit={onSubmit} /> */}
     </div>
   );
 };
