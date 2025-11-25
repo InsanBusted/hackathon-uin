@@ -10,8 +10,7 @@ export default function JobSeeker() {
       <section className="pt-5">
         <FindJobs />
       </section>
-      <section>
-      </section>
+      <section></section>
       {/* <section>
         <Pricing />
       </section> */}
