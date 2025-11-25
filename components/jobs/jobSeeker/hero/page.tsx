@@ -4,7 +4,7 @@ import Link from "next/link";
 
 const Hero = () => {
   return (
-    <section className="mt-25 gap-5 md:mt-10 px-3 w-full h-screen flex flex-col md:flex-row md:justify-around items-center">
+    <section className="mt-25 gap-5 md:mt-0 px-3 w-full h-screen flex flex-col md:flex-row md:justify-around items-center">
       <div className="flex items-center flex-col">
         {/* Title */}
         <h1 className="text-2xl sm:text-4xl md:text-5xl font-bold text-white leading-tight">
@@ -37,17 +37,17 @@ const Hero = () => {
       </div>
 
       <div className="relative flex items-start justify-center">
-        <div className="absolute -bottom-20 w-[300px] h-[300px] md:w-[450px] md:h-[480px] bg-white rounded-full z-10 shadow-2xl opacity-95" />
+        <div className="absolute -bottom-20 w-[250px] h-[200px] md:w-[450px] md:h-[480px] bg-white rounded-full z-10 shadow-2xl opacity-95" />
         <div className="absolute bottom-0 w-[300px] h-20 bg-black/25 rounded-full blur-2xl z-0" />
         <div className="absolute -bottom-20 w-[380px] h-[380px] bg-white/10 rounded-full blur-3xl z-0" />
 
         {/* Maskot */}
         <Image
           src={maskot}
-          width={200}
-          height={80}
           alt="Maskot"
-          className="z-20 relative drop-shadow-2xl"
+          width={150}
+          height={80}
+          className=" z-20 relative drop-shadow-2xl w-[150px] md:w-[250px] lg:w-[320px]"
         />
       </div>
     </section>
