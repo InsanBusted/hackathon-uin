@@ -3,7 +3,11 @@ import maskot from "@/public/maskot.png";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 
-const Hero = () => {
+interface HeroProps {
+  find: string;
+}
+
+const Hero = ({ find }: HeroProps) => {
   return (
     <section className="mt-25 gap-5 md:mt-0 px-3 w-full h-screen flex flex-col md:flex-row md:justify-around items-center">
       <div className="flex items-center flex-col">
@@ -35,8 +39,8 @@ const Hero = () => {
             />
           </Link>
 
-          <Link href="/">
-            <Button className="bg-black text-white p-6 w-50 rounded-4xl hover:bg-gray-900 cursor-pointer">
+          <Link href={find}>
+            <Button className="bg-black text-white p-5.5 md:p-6 md:w-50 rounded-4xl hover:bg-gray-900 cursor-pointer">
               Cari Pekerjaann
             </Button>
           </Link>

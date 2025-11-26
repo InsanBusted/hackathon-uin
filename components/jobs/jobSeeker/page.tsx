@@ -5,9 +5,9 @@ export default function JobSeeker() {
   return (
     <div className="min-h-screen bg-linear-to-b from-[#63D9FA] to-[#F5F5F5]">
       <section className="pt-5">
-        <Hero />
+        <Hero find="#findJobs" />
       </section>
-      <section className="pt-5">
+      <section id="findJobs" className="pt-5">
         <FindJobs />
       </section>
       <section></section>
