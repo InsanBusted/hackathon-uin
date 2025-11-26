@@ -121,8 +121,6 @@
   }
 }
 
-
-
 .text-blue-custom {
   background: linear-gradient(
     88.14deg,
@@ -130,4 +128,8 @@
     #0a2f5a 48.06%,
     #64b5f6 98.79%
   );
+}
+
+.text-main {
+  color: rgba(100, 181, 246, 1);
 }

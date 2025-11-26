@@ -1,6 +1,7 @@
 import Image from "next/image";
 import maskot from "@/public/maskot.png";
 import Link from "next/link";
+import { Button } from "@/components/ui/button";
 
 const Hero = () => {
   return (
@@ -23,7 +24,7 @@ const Hero = () => {
           dengan ribuan lowongan, dan mengirimkan lamaran terbaik secara
           otomatis.
         </p>
-        <div className="flex items-center justify-center mt-10">
+        <div className="flex items-center justify-center mt-10 gap-2">
           <Link href="/">
             <Image
               src="/buttonsvg/buttonApply.svg"
@@ -32,6 +33,12 @@ const Hero = () => {
               alt="Button Apply"
               className="cursor-pointer"
             />
+          </Link>
+
+          <Link href="/">
+            <Button className="bg-black text-white p-6 w-50 rounded-4xl hover:bg-gray-900 cursor-pointer">
+              Cari Pekerjaann
+            </Button>
           </Link>
         </div>
       </div>

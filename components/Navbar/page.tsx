@@ -51,25 +51,25 @@ const Nav = () => {
               onMouseLeave={handleMouseLeave}
             >
               {/* Menu utama */}
-              <Link href={link.path || '#'}>
-              <button className="text-[1.1rem] flex items-center gap-1 font-medium text-black">
-                {link.title}
-                {link.subLinks && (
-                  <svg
-                    className="w-3 h-3 ml-1"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M19 9l-7 7-7-7"
-                    />
-                  </svg>
-                )}
-              </button>
+              <Link href={link.path || "#"}>
+                <button className="text-[1.1rem] flex items-center gap-1 font-medium text-black">
+                  {link.title}
+                  {link.subLinks && (
+                    <svg
+                      className="w-3 h-3 ml-1"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M19 9l-7 7-7-7"
+                      />
+                    </svg>
+                  )}
+                </button>
               </Link>
 
               {/* Submenu */}
