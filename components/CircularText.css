@@ -1,0 +1,41 @@
+.circular-text {
+  margin: 0 auto;
+  border-radius: 50%;
+  width: 160px;   /* mobile default */
+  height: 160px;
+  font-weight: 900;
+  color: #BBDEFB;
+  text-align: center;
+  position: relative;
+  cursor: pointer;
+  transform-origin: 50% 50%;
+}
+
+.circular-text span {
+  position: absolute;
+  left: 0; right: 0; top: 0; bottom: 0;
+  font-size: 16px;  /* mobile default */
+  transition: all 0.5s cubic-bezier(0, 0, 0, 1);
+}
+
+/* Tablet */
+@media (min-width: 640px) {
+  .circular-text {
+    width: 220px;
+    height: 220px;
+  }
+  .circular-text span {
+    font-size: 20px;
+  }
+}
+
+/* Desktop */
+@media (min-width: 1024px) {
+  .circular-text {
+    width: 260px;
+    height: 260px;
+  }
+  .circular-text span {
+    font-size: 24px;
+  }
+}
