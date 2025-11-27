@@ -7,7 +7,7 @@ export default function JobSeeker() {
       <section className="pt-5">
         <Hero find="#findJobs" />
       </section>
-      <section id="findJobs" className="pt-5">
+      <section id="findJobs" className="pt-[10vh]">
         <FindJobs />
       </section>
       <section></section>

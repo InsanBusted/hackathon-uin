@@ -1,3 +1,4 @@
+"use client"
 import Image from "next/image";
 import maskot from "@/public/maskot.png";
 import Link from "next/link";
@@ -39,9 +40,20 @@ const Hero = ({ find }: HeroProps) => {
             />
           </Link>
 
-          <Link href={find}>
-            <Button className="bg-black text-white p-5.5 md:p-6 md:w-50 rounded-4xl hover:bg-gray-900 cursor-pointer">
-              Cari Pekerjaann
+          <Link href={find} scroll={false}>
+            <Button
+              onClick={() => {
+                const element = document.querySelector(find);
+                if (element) {
+                  element.scrollIntoView({
+                    behavior: "smooth",
+                    block: "start",
+                  });
+                }
+              }}
+              className="bg-black text-white p-5.5 md:p-6 md:w-50 rounded-4xl hover:bg-gray-900 cursor-pointer"
+            >
+              Cari Pekerjaan
             </Button>
           </Link>
         </div>
