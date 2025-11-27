@@ -42,7 +42,7 @@ export function CheckboxSelect({
   return (
     <Popover>
       <PopoverTrigger className="bg-white! text-main" asChild>
-        <Button variant="outline" className="w-full justify-between">
+        <Button variant="outline" className="w-[15vw] justify-between">
           {selected.length > 0 ? `${selected.length} Selected` : label}
           <ChevronsUpDown className="w-4 h-4 opacity-50" />
         </Button>
