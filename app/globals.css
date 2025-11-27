@@ -133,3 +133,7 @@
 .text-main {
   color: rgba(100, 181, 246, 1);
 }
+
+.text-primary {
+  color: #0a2f5a;
+}

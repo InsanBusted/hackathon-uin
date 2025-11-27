@@ -44,13 +44,13 @@ const CardJobs = () => {
   }
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-6">
+    <div className="flex flex-col w-[20vw] gap-2">
       {jobs.map((job) => (
         <div
           key={job.id}
           className="bg-white rounded-md shadow-lg p-5 hover:shadow-xl transition cursor-pointer"
         >
-          <div className="flex items-center gap-3 mb-4">
+          <div className="flex flex-col gap-3 mb-4">
             <Image
               src={job.logoUrl || logo}
               width={60}
@@ -59,20 +59,17 @@ const CardJobs = () => {
               className="rounded-md"
             />
 
-            <div>
-              <p className="font-bold">{job.company}</p>
-              {job.createdAt && (
-                <p className="text-xs text-gray-500">
-                  {new Date(job.createdAt).toLocaleDateString("id-ID")}
-                </p>
-              )}
-            </div>
+            <p className="font-bold text-gray-500">{job.company}</p>
+            <h2 className="text-lg font-bold text-primary">{job.title}</h2>
+            <p className="text-gray-500"> {job.location}</p>
+            {job.createdAt && (
+              <p className="text-xs text-gray-500">
+                {new Date(job.createdAt).toLocaleDateString("id-ID")}
+              </p>
+            )}
           </div>
 
-          <h2 className="text-lg font-bold text-main">{job.title}</h2>
-
           <div className="mt-3 text-gray-600 text-sm flex flex-col gap-1">
-            <p>📍 {job.location}</p>
             {job.workplace && <p>🏢 {job.workplace}</p>}
             {job.jobType && <p>💼 {job.jobType}</p>}
           </div>
