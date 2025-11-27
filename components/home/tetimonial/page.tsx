@@ -1,6 +1,5 @@
 "use client";
 
-
 import {
   Carousel,
   CarouselContent,
@@ -54,8 +53,8 @@ const listTestimonial = [
 
 const TestimonialPage = () => {
   return (
-    <div className="bg-white min-h-screen flex flex-col items-center px-6 py-14">
-      <h1 className="text-black text-center text-2xl md:text-3xl font-semibold mb-10">
+    <div className="bg-white min-h-screen flex flex-col items-center px-4 sm:px-6 py-14">
+      <h1 className="text-black text-center text-xl sm:text-2xl md:text-3xl font-semibold mb-10">
         Kata Mereka yang Sudah Merasakan
       </h1>
 
@@ -63,33 +62,54 @@ const TestimonialPage = () => {
         <Carousel
           opts={{
             align: "start",
-            dragFree: false,
+            dragFree: true,
           }}
           className="w-full"
         >
           <CarouselContent
-            className="-ml-3 overflow-x-auto scrollbar-none pb-7 md:overflow-x-scroll md:cursor-auto"
+            className="-ml-4 md:overflow-x-auto pb-7 cursor-grab active:cursor-grabbing"
+
           >
             {listTestimonial.map((item, i) => (
               <CarouselItem
                 key={i}
-                className="pl-5 basis-4/5 sm:basis-1/2 lg:basis-1/3"
+                className="
+                  pl-4
+                  basis-[85%]
+                  sm:basis-[60%]
+                  md:basis-[45%]
+                  lg:basis-[32%]
+                "
               >
-                <div className="w-full min-h-[340px] border border-[#CBCBCB] bg-white rounded-xl shadow-sm p-6 flex flex-col justify-between transition-transform duration-300 hover:scale-[1.03]">
-                  <p className="text-base md:text-lg font-medium bg-gradient-to-r from-[#130F26] via-[#0A2F5A] to-[#64B5F6] bg-clip-text text-transparent leading-relaxed">
+                <div
+                  className="
+                  w-full 
+                  min-h-80 sm:min-h-[340px] 
+                  border border-[#CBCBCB] 
+                  bg-white 
+                  rounded-xl 
+                  shadow-sm 
+                  p-5 sm:p-6 
+                  flex flex-col justify-between 
+                  transition-transform duration-300 
+                  hover:scale-[1.03]
+                "
+                >
+                  <p className="text-sm sm:text-base md:text-lg font-medium bg-linear-to-r from-[#130F26] via-[#0A2F5A] to-[#64B5F6] bg-clip-text text-transparent leading-relaxed">
                     {item.text}
                   </p>
 
                   <div className="flex items-center gap-4 mt-6">
-                    <div className="w-[50px] h-[50px] bg-[#D9D9D9] rounded-full" />
+                    <div className="w-10 h-10 sm:w-[50px] sm:h-[50px] bg-[#D9D9D9] rounded-full" />
+
                     <div className="flex flex-col">
-                      <p className="text-black text-lg font-semibold">
+                      <p className="text-black text-base sm:text-lg font-semibold">
                         {item.name}
                       </p>
-                      <p className="text-black text-sm">
+                      <p className="text-black text-xs sm:text-sm">
                         {item.jobType}, {item.socialMedia}
                       </p>
-                      <p className="text-[#959595] text-sm">
+                      <p className="text-[#959595] text-xs sm:text-sm">
                         {item.nameSocialMedia}
                       </p>
                     </div>

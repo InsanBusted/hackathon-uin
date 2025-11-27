@@ -1,5 +1,6 @@
 import Header from "@/components/Header/page";
 import Advantage from "@/components/home/advantage/page";
+import Footer from "@/components/home/footer/page";
 import Hero from "@/components/home/hero/page";
 import JobsComponent from "@/components/home/jobs/page";
 import TestimonialPage from "@/components/home/tetimonial/page";
@@ -22,6 +23,9 @@ export default function Home() {
       </section>
       <section>
         <TestimonialPage />
+      </section>
+      <section>
+        <Footer />
       </section>
     </div>
   );
