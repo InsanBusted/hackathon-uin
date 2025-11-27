@@ -1,6 +1,6 @@
 "use client";
 
-import CardLogin from "@/components/login/CardLogin";
+import CardLogin from "@/components/auth/login/CardLogin";
 import { useForm } from "react-hook-form";
 
 interface LoginForm {
