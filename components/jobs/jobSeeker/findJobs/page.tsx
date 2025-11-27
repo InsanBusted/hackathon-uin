@@ -1,8 +1,8 @@
 "use client";
 
-import Image from "next/image";
 import { Search } from "lucide-react";
 import { CheckboxSelect } from "@/components/ui/CheckboxSelect";
+import CardJobs from "./CardJobs";
 
 interface DropdownData {
   jobType: string[];
@@ -73,6 +73,10 @@ const FindJobs = () => {
             </div>
           );
         })}
+      </div>
+
+      <div>
+        <CardJobs />
       </div>
     </div>
   );
