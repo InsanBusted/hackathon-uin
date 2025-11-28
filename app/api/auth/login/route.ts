@@ -1,83 +1,75 @@
 import { NextRequest, NextResponse } from "next/server";
-import { PrismaClient, Role } from "@prisma/client";
-import { z } from "zod";
-import bcrypt from "bcrypt";
+import {prisma} from "@/lib/prisma";
+import bcrypt from "bcryptjs";
+import jwt from "jsonwebtoken";
 
-const prisma = new PrismaClient();
-
-const createUserSchema = z.object({
-  email: z.string().email(),
-  username: z.string().optional(),
-  password: z.string().min(6),
-  role: z.nativeEnum(Role).optional(),
-});
-
-export async function GET() {
-  try {
-    const users = await prisma.user.findMany({
-      select: {
-        id: true,
-        email: true,
-        username: true,
-        role: true,
-        createdAt: true,
-      },
-      orderBy: { createdAt: "desc" },
-    });
-
-    return NextResponse.json(users, { status: 200 });
-  } catch (error) {
-    console.error("[USER GET ERROR]", error);
-    return NextResponse.json(
-      { message: "Internal Server Error" },
-      { status: 500 }
-    );
-  }
-}
-
-// regist
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
-    const parsed = createUserSchema.safeParse(body);
+    const { identifier, password } = body;
 
-    if (!parsed.success) {
+    if (!identifier || !password) {
       return NextResponse.json(
-        { message: "Invalid input", errors: parsed.error.flatten() },
+        { message: "Identifier (email/username) dan password wajib diisi" },
         { status: 400 }
       );
     }
-    const data = parsed.data;
 
-    const existingUser = await prisma.user.findUnique({
-      where: { email: data.email },
-    });
-
-    if (existingUser) {
-      return NextResponse.json(
-        { message: "Email already exists" },
-        { status: 409 }
-      );
-    }
-
-    const hashedPassword = await bcrypt.hash(data.password, 10);
-    const newUser = await prisma.user.create({
-      data: {
-        email: data.email,
-        username: data.username ?? "",
-        password: hashedPassword,
-        role: data.role ?? Role.CLIENT,
+    // Cari user berdasarkan email atau username
+    const user = await prisma.user.findFirst({
+      where: {
+        OR: [
+          { email: identifier },
+          { username: identifier },
+        ],
       },
     });
 
+    if (!user) {
+      return NextResponse.json(
+        { message: "User tidak ditemukan" },
+        { status: 404 }
+      );
+    }
+
+    // Validasi password
+    const isPasswordValid = await bcrypt.compare(password, user.password || "");
+
+    if (!isPasswordValid) {
+      return NextResponse.json(
+        { message: "Password salah" },
+        { status: 401 }
+      );
+    }
+
+    // Generate JWT
+    const token = jwt.sign(
+      {
+        id: user.id,
+        email: user.email,
+        role: user.role,
+      },
+      process.env.JWT_SECRET as string,
+      { expiresIn: "7d" }
+    );
+
     return NextResponse.json(
-      { message: "User created", user: newUser },
-      { status: 201 }
+      {
+        message: "Login berhasil",
+        user: {
+          id: user.id,
+          email: user.email,
+          username: user.username,
+          role: user.role,
+        },
+        token,
+      },
+      { status: 200 }
     );
   } catch (error) {
-    console.error("[USER POST ERROR]", error);
+    console.error("LOGIN ERROR", error);
     return NextResponse.json(
-      { message: "Internal server error"},
+      { message: "Internal Server Error" },
       { status: 500 }
     );
   }
