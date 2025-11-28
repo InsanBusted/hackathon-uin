@@ -68,6 +68,7 @@ model Lowongan {
   kualifikasi         String[] @default([])
   tugasTanggungJawab  String[] @default([])
   kualifikasiTambahan String[] @default([])
+  jobType             String[] @default([])
 
   user          User           @relation(fields: [userId], references: [id])
   bidang        Bidang?        @relation(fields: [bidangId], references: [id])

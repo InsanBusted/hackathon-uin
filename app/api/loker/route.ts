@@ -16,6 +16,7 @@ const createLowonganSchema = z.object({
   kualifikasi: z.array(z.string()).default([]),
   tugasTanggungJawab: z.array(z.string()).default([]),
   kualifikasiTambahan: z.array(z.string()).default([]),
+  jobType: z.array(z.string()).default([]),
 });
 
 
@@ -46,6 +47,44 @@ export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
 
+    // Jika array → bulk insert
+    if (Array.isArray(body)) {
+      const createdList = [];
+
+      for (const item of body) {
+        const parsed = createLowonganSchema.safeParse(item);
+        if (!parsed.success) continue;
+
+        const data = parsed.data;
+
+        const slug =
+          data.title.toLowerCase().replace(/[^a-z0-9]+/g, "-") +
+          "-" +
+          Math.random().toString(36).substring(2, 7);
+
+        const created = await prisma.lowongan.create({
+          data: {
+            userId: data.userId,
+            slug,
+            title: data.title,
+            description: data.description,
+            company: data.company,
+            location: data.location,
+            bidangId: data.bidangId,
+            kualifikasi: data.kualifikasi,
+            tugasTanggungJawab: data.tugasTanggungJawab,
+            kualifikasiTambahan: data.kualifikasiTambahan,
+            jobType: data.jobType,
+          },
+        });
+
+        createdList.push(created);
+      }
+
+      return NextResponse.json(createdList, { status: 201 });
+    }
+
+    // Jika single object → insert biasa
     const parsed = createLowonganSchema.safeParse(body);
     if (!parsed.success) {
       return NextResponse.json(
@@ -69,11 +108,11 @@ export async function POST(req: NextRequest) {
         description: data.description,
         company: data.company,
         location: data.location,
-        bidangId: data.bidangId ?? null,
-
+        bidangId: data.bidangId,
         kualifikasi: data.kualifikasi,
         tugasTanggungJawab: data.tugasTanggungJawab,
         kualifikasiTambahan: data.kualifikasiTambahan,
+        jobType: data.jobType,
       },
     });
 

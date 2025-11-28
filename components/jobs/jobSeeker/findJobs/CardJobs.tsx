@@ -3,6 +3,7 @@
 import Image from "next/image";
 import logo from "@/public/image/bni.png";
 import { useEffect, useState } from "react";
+import { Badge } from "@/components/ui/badge";
 
 interface Job {
   id: string;
@@ -24,6 +25,7 @@ const CardJobs = () => {
       try {
         const res = await fetch("/api/loker");
         const data = await res.json();
+        console.log(data)
         setJobs(data);
       } catch (error) {
         console.error("Error fetching jobs:", error);
@@ -32,19 +34,20 @@ const CardJobs = () => {
       }
     }
 
+
     fetchJobs();
   }, []);
 
   if (loading) {
-    return <p className="text-center text-gray-500">Loading jobs...</p>;
+    return <p className="text-center text-black">Loading jobs...</p>;
   }
 
   if (jobs.length === 0) {
-    return <p className="text-center text-gray-500">Tidak ada lowongan.</p>;
+    return <p className="text-center text-black">Tidak ada lowongan.</p>;
   }
 
   return (
-    <div className="flex flex-col w-[20vw] gap-2">
+    <div className="flex flex-col  w-full gap-2">
     
       {jobs.map((job) => (
         <div
@@ -60,22 +63,23 @@ const CardJobs = () => {
               className="rounded-md"
             />
 
-            <p className="font-bold text-gray-500">{job.company}</p>
+            <p className="font-bold text-black">{job.company}</p>
             <h2 className="text-lg font-bold text-primary">{job.title}</h2>
-            <p className="text-gray-500"> {job.location}</p>
+            <p className="text-black"> {job.location}</p>
+            <Badge>{job.jobType}</Badge>
             {job.createdAt && (
-              <p className="text-xs text-gray-500">
+              <p className="text-xs text-black">
                 {new Date(job.createdAt).toLocaleDateString("id-ID")}
               </p>
             )}
           </div>
 
-          <div className="mt-3 text-gray-600 text-sm flex flex-col gap-1">
+          <div className=" text-black text-sm flex flex-col gap-1">
             {job.workplace && <p>🏢 {job.workplace}</p>}
             {job.jobType && <p>💼 {job.jobType}</p>}
           </div>
 
-          <button className="mt-4 bg-main text-white px-4 py-2 rounded-md hover:bg-main/80 transition w-full">
+          <button className="mt-4 bg-main text-black px-4 py-2 rounded-md hover:bg-main/80 transition w-full">
             Lihat Detail
           </button>
         </div>
