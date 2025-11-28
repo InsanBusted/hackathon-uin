@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import Maskot from "@/public/image/gatotKerja.png";
+import Maskot from "@/public/image/gatotKetawa.png";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -15,30 +15,19 @@ import {
 import { Input } from "@/components/ui/input";
 import { UseFormReturn } from "react-hook-form";
 import Link from "next/link";
-import { email } from "zod";
 
-interface LoginForm {
+interface RegisterForm {
+    fullName:string;
   email: string;
   password: string;
 }
 
-interface CardLoginProps {
-  form: UseFormReturn<LoginForm>;
-  onSubmit: (data: LoginForm) => void;
-  emailPlaceholder?: string;
-  loginAsText?: string;
-  loginAsLink?: string;
-  hideLinks?: boolean;
+interface CardRegisterProps {
+  form: UseFormReturn<RegisterForm>;
+  onSubmit: (data: RegisterForm) => void;
 }
 
-const CardLogin = ({
-  form,
-  onSubmit,
-  emailPlaceholder,
-  loginAsText,
-  loginAsLink,
-  hideLinks,
-}: CardLoginProps) => {
+const CardRegister = ({ form, onSubmit }: CardRegisterProps) => {
   return (
     <div className="flex flex-col md:flex-row w-[90vw] max-w-4xl h-[70vh] md:h-[60vh] rounded-xl overflow-hidden shadow-lg">
       {/* Bagian kiri gradient */}
@@ -57,14 +46,30 @@ const CardLogin = ({
       <div className="flex-1 bg-white flex flex-col items-center justify-center p-8 gap-6">
         <div className="flex flex-col items-center gap-1">
           <h1 className="text-3xl font-bold text-[#64B5F6]">Welcome</h1>
-          <p className="text-sm text-[#64B5F6]">
-            {loginAsText ?? "Log In As User"}
-          </p>
+          <p className="text-sm text-[#64B5F6]">Create an Account</p>
         </div>
 
         <div className="w-full max-w-sm">
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-3">
+              {/* Full Name */}
+              <FormField
+                control={form.control}
+                name="fullName"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormControl>
+                      <Input
+                        type="text"
+                        placeholder="Full Name:"
+                        className="text-black border-none rounded-lg"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
               {/* Email */}
               <FormField
                 control={form.control}
@@ -74,7 +79,7 @@ const CardLogin = ({
                     <FormControl>
                       <Input
                         type="email"
-                        placeholder={emailPlaceholder ?? "Email:"}
+                        placeholder="Email:"
                         className="text-black border-none rounded-lg"
                         {...field}
                       />
@@ -102,14 +107,6 @@ const CardLogin = ({
                   </FormItem>
                 )}
               />
-              <div className="flex justify-between text-sm text-gray-600">
-                <label className="flex items-center gap-2">
-                  <input type="checkbox" /> Remember me
-                </label>
-                <button type="button" className="hover:underline">
-                  Forgot Password?
-                </button>
-              </div>
               <div className="flex justify-center mt-4">
                 <Button
                   type="submit"
@@ -118,36 +115,12 @@ const CardLogin = ({
                   Continue
                 </Button>
               </div>
-              <div className="flex items-center my-6">
-                <div className="flex-1 h-px bg-gray-300" />
-                <span className="px-3 text-gray-500 text-sm">
-                  Other login option
-                </span>
-                <div className="flex-1 h-px bg-gray-300" />
-              </div>
               <div className="flex flex-col justify-center items-center">
-                <p className="text-sm text-black">
-                  Dont Have an account?
-                  <Link href="/register">
-                    <span className="text-black font-bold hover:underline ml-1">
-                      Sign Up
-                    </span>
+                <p className="text-sm text-black">Have an account?
+                  <Link
+                    href="/login"><span className="text-black font-bold hover:underline ml-1">Sign In</span>
                   </Link>
-                </p>
-                {!hideLinks && (
-                  <>
-                    <Link href="/login/company">
-                      <span className="text-black font-bold hover:underline">
-                        Log In With Your Company
-                      </span>
-                    </Link>
-                    <Link href="/login/client">
-                      <span className="text-black font-bold hover:underline">
-                        {loginAsLink ?? "Log In As Client"}
-                      </span>
-                    </Link>
-                  </>
-                )}
+                  </p>
               </div>
             </form>
           </Form>
@@ -157,4 +130,4 @@ const CardLogin = ({
   );
 };
 
-export default CardLogin;
+export default CardRegister;
