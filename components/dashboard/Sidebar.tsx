@@ -29,7 +29,7 @@ export function AppSidebar() {
   ];
 
   return (
-    <Sidebar className="border-r border-neutral-800 bg-neutral-900 text-neutral-200">
+    <Sidebar className="border-r border-neutral-800 bg-white text-neutral-200">
       <SidebarHeader>
         <Image
           src="/lokerin.png"

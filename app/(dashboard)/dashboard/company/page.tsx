@@ -1,9 +1,12 @@
+import DashboardCompany from '@/components/dashboard/company/page'
 import React from 'react'
 
 const page = () => {
   return (
     <div>
-      <h1>ini halaman dashboard company</h1>
+      <section className="">
+        <DashboardCompany />
+      </section>
     </div>
   )
 }
