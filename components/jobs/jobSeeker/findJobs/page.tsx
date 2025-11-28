@@ -3,6 +3,7 @@
 import { Search } from "lucide-react";
 import { CheckboxSelect } from "@/components/ui/CheckboxSelect";
 import CardJobs from "./CardJobs";
+import DetailJob from "./DetailJob1";
 
 interface DropdownData {
   jobType: string[];
@@ -75,8 +76,13 @@ const FindJobs = () => {
         })}
       </div>
 
-      <div>
-        <CardJobs />
+      <div className="grid grid-cols-3 gap-3">
+        <div>
+          <CardJobs />
+        </div>
+        <div className="col-span-2">
+          <DetailJob />
+        </div>
       </div>
     </div>
   );

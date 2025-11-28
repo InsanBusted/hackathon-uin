@@ -45,6 +45,7 @@ const CardJobs = () => {
 
   return (
     <div className="flex flex-col w-[20vw] gap-2">
+    
       {jobs.map((job) => (
         <div
           key={job.id}
