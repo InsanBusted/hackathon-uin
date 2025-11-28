@@ -1,6 +1,7 @@
 "use client";
 import CircularText from "@/components/CircularText";
 import Image from "next/image";
+import Link from "next/link";
 
 const Footer = () => {
   return (
@@ -29,20 +30,26 @@ const Footer = () => {
         >
           Your Next Career Move Starts With One Click
         </h1>
+        <Link href="/login">
+          <Image src="/image/mata.png" width={200} height={120} alt="eye" />
+          <div className="relative w-[200px] sm:w-[260px] md:w-[300px] flex justify-center items-center">
+            <div className="absolute inset-0 flex justify-center items-center">
+              <CircularText
+                text=" Get In Touch * Get In Touch * Get In Touch * Get In Touch * Get In Touch * "
+                onHover="speedUp"
+                spinDuration={20}
+              />
+            </div>
 
-        <Image src="/image/mata.png" width={200} height={120} alt="eye" />
-        <div className="relative w-[200px] sm:w-[260px] md:w-[300px] flex justify-center items-center">
-
-          <div className="absolute inset-0 flex justify-center items-center">
-            <CircularText
-              text=" Get In Touch * Get In Touch * Get In Touch * Get In Touch * Get In Touch * "
-              onHover="speedUp"
-              spinDuration={20}
+            <Image
+              src="/image/arrow.png"
+              width={200}
+              height={120}
+              alt="arrow"
+              className=" w-[200px] h-auto sm:w-[220px] md:w-[260px] lg:w-[300px] "
             />
           </div>
-
-          <Image src="/image/arrow.png" width={200} height={120} alt="arrow" className=" w-[200px] h-auto sm:w-[220px] md:w-[260px] lg:w-[300px] " />
-        </div>
+        </Link>
       </div>
     </div>
   );

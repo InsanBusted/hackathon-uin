@@ -4,6 +4,7 @@ import Image from "next/image";
 import logo from "@/public/image/bni.png";
 import { useEffect, useState } from "react";
 import { Badge } from "@/components/ui/badge";
+import { useRouter } from "next/navigation";
 
 interface Job {
   id: string;
@@ -17,6 +18,7 @@ interface Job {
 }
 
 const CardJobs = () => {
+  const router = useRouter();
   const [jobs, setJobs] = useState<Job[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -50,6 +52,7 @@ const CardJobs = () => {
       {jobs.map((job) => (
         <div
           key={job.id}
+          onClick={() => router.push(`/job/${job.id}`)}
           className="bg-white rounded-md shadow-lg p-5 hover:shadow-xl transition cursor-pointer"
         >
           <div className="flex flex-col gap-3 mb-4">
