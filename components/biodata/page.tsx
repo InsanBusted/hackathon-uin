@@ -1,6 +1,6 @@
 import React from 'react'
 import Hero from './hero/page'
-import Step from './step/page'
+import StepRow from './step/page'
 
 const Biodata = () => {
   return (
@@ -9,7 +9,7 @@ const Biodata = () => {
         <Hero />
       </section>
       <section className="mt-10">
-        <Step />
+        <StepRow />
       </section>
     </div>
   )
