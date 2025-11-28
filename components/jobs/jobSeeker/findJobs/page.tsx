@@ -12,7 +12,7 @@ interface Job {
   company: string;
   location: string;
   workplace?: string;
-  jobType?: string;
+  jobType?: string[];
   createdAt?: string;
   logoUrl?: string;
   startDate: string;

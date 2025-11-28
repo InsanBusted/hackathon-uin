@@ -19,7 +19,7 @@ interface Job {
   title: string;
   company: string;
   location: string;
-  jobType?: string;
+  jobType?: string[];
   createdAt?: string;
   logoUrl?: string;
   startDate: string;
@@ -125,7 +125,7 @@ const CardJobs = ({ jobs, loading, onSelect }: CardJobsProps) => {
           <PaginationItem>
             <PaginationPrevious
               onClick={() => page > 1 && setPage(page - 1)}
-              className={page === 1 ? "pointer-events-none opacity-50" : ""}
+              className={page === 1 ? "bg-black pointer-events-none opacity-50" : ""}
             />
           </PaginationItem>
 
@@ -133,7 +133,7 @@ const CardJobs = ({ jobs, loading, onSelect }: CardJobsProps) => {
           {pageNumbers.map((num, idx) => (
             <PaginationItem key={idx}>
               {num === "..." ? (
-                <span className="px-3 text-gray-500">...</span>
+                <span className="bg-black px-3 text-gray-500">...</span>
               ) : (
                 <PaginationLink
                   onClick={() => setPage(Number(num))}

@@ -5,6 +5,10 @@ import { useState, useRef } from "react";
 import { Menu } from "lucide-react";
 import MobileNav from "./MobileNav";
 import { Button } from "../ui/button";
+import { getFromCookies } from "@/lib/cookies";
+import { clearName } from "@/lib/func";
+
+
 
 const Nav = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -35,8 +39,15 @@ const Nav = () => {
     timeoutRef.current = setTimeout(() => {
       setDropdownOpen(null);
       timeoutRef.current = null;
-    }, 80); // 1 detik delay
+    }, 80);
   };
+
+  const user = getFromCookies<{
+    id: string;
+    email: string;
+    username: string;
+    role: string;
+  }>("user");
 
   return (
     <nav className="w-full top-0 left-0 z-50 bg-transparent">
@@ -50,7 +61,6 @@ const Nav = () => {
               onMouseEnter={() => handleMouseEnter(idx)}
               onMouseLeave={handleMouseLeave}
             >
-              {/* Menu utama */}
               <Link href={link.path || "#"}>
                 <button className="text-[1.1rem] flex items-center gap-1 font-medium text-black">
                   {link.title}
@@ -72,7 +82,6 @@ const Nav = () => {
                 </button>
               </Link>
 
-              {/* Submenu */}
               {link.subLinks && dropdownOpen === idx && (
                 <div className="absolute left-0 mt-2 w-48 bg-white shadow-lg rounded-lg py-2">
                   {link.subLinks.map((child) => (
@@ -89,9 +98,15 @@ const Nav = () => {
             </div>
           ))}
 
-          <Button className="font-semibold text-white bg-black hover:bg-white/80">
-            <Link href="/login">Login</Link>
-          </Button>
+          {user ? (
+            <Button className="font-semibold text-white bg-black hover:bg-white/80">
+              <Link href={`/profile/${clearName(user.username)}`}>{user.username}</Link>
+            </Button>
+          ) : (
+            <Button className="font-semibold text-white bg-black hover:bg-white/80">
+              <Link href="/login">Login</Link>
+            </Button>
+          )}
         </div>
 
         {/* Mobile Button */}

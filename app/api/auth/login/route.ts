@@ -75,6 +75,21 @@ response.cookies.set("token", token, {
   maxAge: 60 * 60 * 24 * 7, // 7 hari
 });
 
+response.cookies.set("user", JSON.stringify({
+  id: user.id,
+  email: user.email,
+  username: user.username,
+  role: user.role
+}), {
+  httpOnly: false,     // penting! supaya bisa dibaca dari browser
+  secure: process.env.NODE_ENV === "production",
+  sameSite: "lax",
+  path: "/",
+  maxAge: 60 * 60 * 24 * 7
+});
+
+
+
 return response;
   } catch (error) {
     console.error("LOGIN ERROR", error);
