@@ -21,8 +21,7 @@ const Nav = () => {
       title: "Jobs",
       subLinks: [
         { title: "Job Seeker", path: "/jobs/jobs-seeker" },
-        { title: "Employer", path: "/jobs/employer" },
-        { title: "Internships", path: "/jobs/internships" },
+        { title: "Freelance", path: "/freelance" },
       ],
     },
   ];

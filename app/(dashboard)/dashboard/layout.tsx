@@ -44,7 +44,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             </div>
 
             {/* Konten */}
-            <main className="p-6">{children}</main>
+            <main className="p-6 ">{children}</main>
           </SidebarInset>
         </SidebarProvider>
       </body>

@@ -60,6 +60,11 @@ model Biodata {
   sendLowongans SendLowongan[]
 } 
 
+enum Status {
+  PROJECT
+  LOKER
+}
+
 model Lowongan {
   id          String   @id @default(cuid())
   userId      String
@@ -68,6 +73,7 @@ model Lowongan {
   description String
   company     String
   location    String
+  status      Status @default(LOKER)
   startDate   DateTime @default("2025-12-01T00:00:00.000Z")
   endDate     DateTime @default("2025-12-31T00:00:00.000Z")
   createdAt DateTime @default(now())
@@ -83,6 +89,7 @@ model Lowongan {
   bidangId      String?
   sendLowongans SendLowongan[]
 }
+
 
 model Bidang {
   id       String     @id @default(uuid())
