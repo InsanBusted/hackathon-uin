@@ -125,15 +125,19 @@ const CardJobs = ({ jobs, loading, onSelect }: CardJobsProps) => {
           <PaginationItem>
             <PaginationPrevious
               onClick={() => page > 1 && setPage(page - 1)}
-              className={page === 1 ? "bg-black pointer-events-none opacity-50" : ""}
+              className={
+                page === 1
+                  ? "bg-black pointer-events-none opacity-50"
+                  : "bg-black"
+              }
             />
           </PaginationItem>
 
           {/* PAGE NUMBERS WITH ELLIPSIS */}
           {pageNumbers.map((num, idx) => (
-            <PaginationItem key={idx}>
+            <PaginationItem key={idx} className="bg-black rounded-lg">
               {num === "..." ? (
-                <span className="bg-black px-3 text-gray-500">...</span>
+                <span className=" px-3 text-gray-500">...</span>
               ) : (
                 <PaginationLink
                   onClick={() => setPage(Number(num))}
@@ -150,7 +154,9 @@ const CardJobs = ({ jobs, loading, onSelect }: CardJobsProps) => {
             <PaginationNext
               onClick={() => page < totalPages && setPage(page + 1)}
               className={
-                page === totalPages ? "pointer-events-none opacity-50" : ""
+                page === totalPages
+                  ? "bg-black pointer-events-none opacity-50"
+                  : "bg-black"
               }
             />
           </PaginationItem>

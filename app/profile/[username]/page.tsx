@@ -7,7 +7,7 @@ interface PageProps {
 }
 
 const getBiodata = async (id: string) => {
-  const res = await fetch(`http://localhost:3000/api/biodata/cmihlr8560000utjgv1exyqle`);
+  const res = await fetch(`/api/biodata/cmihlr8560000utjgv1exyqle`);
   return res.json();
 };
 
@@ -24,9 +24,12 @@ const Page = async ({ params }: PageProps) => {
 
         {/* Content */}
         <div className="flex-1 bg-white p-6 rounded-xl shadow-sm">
-          <h1 className="text-primary font-semibold text-xl mb-2">Data Pribadi</h1>
+          <h1 className="text-primary font-semibold text-xl mb-2">
+            Data Pribadi
+          </h1>
           <p className="text-gray-500 text-sm mb-6">
-            Pastikan data pribadi anda benar untuk mempermudah proses pendaftaran
+            Pastikan data pribadi anda benar untuk mempermudah proses
+            pendaftaran
           </p>
 
           <div className="grid grid-cols-2 gap-6">

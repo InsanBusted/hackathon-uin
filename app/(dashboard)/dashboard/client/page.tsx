@@ -1,11 +1,11 @@
-import DashboardCompany from "@/components/dashboard/company/page";
+import DashboardClient from "@/components/dashboard/client/page";
 import React from "react";
 
 const page = () => {
   return (
     <div className="">
       <section className="">
-        <DashboardCompany />
+        <DashboardClient />
       </section>
     </div>
   );

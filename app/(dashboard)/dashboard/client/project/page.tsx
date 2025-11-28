@@ -1,9 +1,9 @@
-import LowonganPage from "@/components/dashboard/company/lowongan/page";
+import ProjectPage from "@/components/dashboard/client/project/page";
 
 const page = () => {
   return (
     <div className="min-h-screen">
-      <LowonganPage />
+      <ProjectPage />
     </div>
   );
 };

@@ -4,9 +4,9 @@ import React, { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
 import { getFromCookies } from "@/lib/cookies";
 import Image from "next/image";
-import { Input } from "@/components/ui/input";
 
 interface ModalApplyProps {
   onClose: () => void;
@@ -25,19 +25,25 @@ interface Biodata {
 const ModalApply = ({ onClose, lowonganId, userId }: ModalApplyProps) => {
   const [biodata, setBiodata] = useState<Biodata | null>(null);
   const [coverLetter, setCoverLetter] = useState("");
-  const [files, setFiles] = useState<File[]>([]); // index 0 = CV, 1+ = portfolio
+  const [files, setFiles] = useState<File[]>([]);
   const [loading, setLoading] = useState(false);
   const [email, setEmail] = useState<string | null>(null);
 
-  // Ambil email dari cookie
+  // New state for deadline/milestone
+  const [applyType, setApplyType] = useState<"deadline" | "milestone">(
+    "deadline"
+  );
+  const [price, setPrice] = useState<string>("");
+  const [endDate, setEndDate] = useState<string>("");
+  const [milestones, setMilestones] = useState<
+    { stage: string; amount: string; deadline: string }[]
+  >([{ stage: "", amount: "", deadline: "" }]);
+
   useEffect(() => {
     const user = getFromCookies<{ email: string; username?: string }>("user");
-    if (user && user.email) {
-      setEmail(user.email);
-    }
+    if (user && user.email) setEmail(user.email);
   }, []);
 
-  // Fetch biodata dari endpoint API
   useEffect(() => {
     if (!userId) return;
 
@@ -46,42 +52,7 @@ const ModalApply = ({ onClose, lowonganId, userId }: ModalApplyProps) => {
         const res = await fetch(`/api/biodata/${userId}`);
         if (!res.ok) throw new Error("Gagal mengambil biodata");
         const data = await res.json();
-        const bio: Biodata = data.biodata;
-
-        setBiodata(bio);
-
-        // Fetch CV dan portfolio lama jadi File object
-        const oldFiles: File[] = [];
-
-        // CV
-        if (bio.documentUrl) {
-          try {
-            const resCV = await fetch(bio.documentUrl);
-            const blobCV = await resCV.blob();
-            oldFiles[0] = new File([blobCV], bio.documentUrl.split("/").pop() || "cv.pdf", {
-              type: blobCV.type,
-            });
-          } catch (err) {
-            console.error("Gagal fetch CV:", err);
-          }
-        }
-
-        // Portfolio
-        if (bio.portfolio && bio.portfolio.length > 0) {
-          for (let i = 0; i < bio.portfolio.length; i++) {
-            try {
-              const resP = await fetch(bio.portfolio[i]);
-              const blobP = await resP.blob();
-              oldFiles[i + 1] = new File([blobP], bio.portfolio[i].split("/").pop() || `portfolio${i}.pdf`, {
-                type: blobP.type,
-              });
-            } catch (err) {
-              console.error("Gagal fetch portfolio:", err);
-            }
-          }
-        }
-
-        setFiles(oldFiles);
+        setBiodata(data.biodata);
       } catch (err) {
         console.error(err);
       }
@@ -98,16 +69,25 @@ const ModalApply = ({ onClose, lowonganId, userId }: ModalApplyProps) => {
     });
   };
 
-  const handleSubmit = async () => {
-    if (!email) {
-      alert("Email tidak ditemukan");
-      return;
-    }
+  const handleMilestoneChange = (
+    index: number,
+    field: keyof (typeof milestones)[0],
+    value: string
+  ) => {
+    setMilestones((prev) => {
+      const newArr = [...prev];
+      newArr[index][field] = value;
+      return newArr;
+    });
+  };
 
-    if (!coverLetter) {
-      alert("Motivation wajib diisi");
-      return;
-    }
+  const addMilestone = () => {
+    setMilestones((prev) => [...prev, { stage: "", amount: "", deadline: "" }]);
+  };
+
+  const handleSubmit = async () => {
+    if (!email) return alert("Email tidak ditemukan");
+    if (!coverLetter) return alert("Motivation wajib diisi");
 
     setLoading(true);
 
@@ -116,10 +96,21 @@ const ModalApply = ({ onClose, lowonganId, userId }: ModalApplyProps) => {
       formData.append("lowonganId", lowonganId);
       formData.append("email", email);
       formData.append("coverLetter", coverLetter);
+      formData.append("applyType", applyType);
 
       files.forEach((file, idx) => {
         if (file) formData.append(`file${idx}`, file);
       });
+
+      if (applyType === "deadline") {
+        if (price) formData.append("price", price);
+        if (endDate) formData.append("endDate", endDate);
+      } else if (applyType === "milestone") {
+        const validMilestones = milestones.filter(
+          (m) => m.stage && m.amount && m.deadline
+        );
+        formData.append("milestones", JSON.stringify(validMilestones));
+      }
 
       const res = await fetch("/api/sendLowongan", {
         method: "POST",
@@ -140,9 +131,8 @@ const ModalApply = ({ onClose, lowonganId, userId }: ModalApplyProps) => {
 
   return (
     <div className="fixed inset-0 bg-black/70 z-50 flex justify-center items-center">
-      <div className="w-full max-w-2xl bg-white rounded-lg shadow-lg relative animate-fadeIn overflow-y-auto">
+      <div className="w-full max-w-2xl bg-white h-[85vh]  rounded-lg shadow-lg relative animate-fadeIn overflow-y-auto">
         <div className="max-h-screen flex flex-col p-8 gap-6">
-          {/* CLOSE BUTTON */}
           <Button
             variant="ghost"
             size="icon"
@@ -192,7 +182,6 @@ const ModalApply = ({ onClose, lowonganId, userId }: ModalApplyProps) => {
 
           {/* Document & Portfolio */}
           <div className="flex flex-col gap-4">
-            {/* CV */}
             <div className="flex flex-col gap-1">
               <Label className="text-primary">CV</Label>
               {biodata?.documentUrl && (
@@ -215,8 +204,6 @@ const ModalApply = ({ onClose, lowonganId, userId }: ModalApplyProps) => {
                 }
               />
             </div>
-
-            {/* Portfolio */}
             <div className="flex flex-col gap-1">
               <Label className="text-primary">PORTFOLIO</Label>
               {biodata?.portfolio && biodata.portfolio.length > 0 && (
@@ -235,22 +222,122 @@ const ModalApply = ({ onClose, lowonganId, userId }: ModalApplyProps) => {
                 className="text-primary"
                 multiple
                 onChange={(e) => {
-                  if (e.target.files) {
-                    const newFiles = Array.from(e.target.files);
-                    setFiles((prev) => [
-                      prev[0], // pertahankan CV
-                      ...newFiles, // portfolio di index 1+
-                    ]);
-                  }
+                  const filesList = e.target.files;
+                  if (!filesList) return;
+                  setFiles((prev) => [prev[0], ...Array.from(filesList)]);
                 }}
               />
             </div>
           </div>
 
+          {/* Apply Type Radio */}
+          <div className="border border-black rounded-lg p-4 flex flex-col gap-2">
+            <Label className="text-primary font-semibold">Apply Type *</Label>
+            <div className="flex gap-4 mt-1">
+              <Label className="text-primary flex items-center gap-1">
+                <input
+                  type="radio"
+                  name="applyType"
+                  value="deadline"
+                  checked={applyType === "deadline"}
+                  onChange={() => setApplyType("deadline")}
+                />
+                By Deadline
+              </Label>
+              <Label className="text-primary flex items-center gap-1">
+                <input
+                  type="radio"
+                  name="applyType"
+                  value="milestone"
+                  checked={applyType === "milestone"}
+                  onChange={() => setApplyType("milestone")}
+                />
+                By Milestone
+              </Label>
+            </div>
+          </div>
+
+          {/* Deadline Inputs */}
+          {applyType === "deadline" && (
+            <div className="border border-black rounded-lg p-4 flex flex-col gap-2">
+              <Label className="text-primary font-semibold">Price (ETH)</Label>
+              <Input
+                type="text"
+                placeholder="Amount in ETH"
+                value={price}
+                onChange={(e) => setPrice(e.target.value)}
+                className="text-primary"
+              />
+              <p className="text-xs text-gray-500">
+                Enter the amount in ETH. It will be converted to smart contract
+                unit automatically.
+              </p>
+
+              <Label className="text-primary font-semibold">End Date</Label>
+              <Input
+                type="date"
+                value={endDate}
+                onChange={(e) => setEndDate(e.target.value)}
+                className="text-primary"
+              />
+            </div>
+          )}
+
+          {/* Milestones Inputs */}
+          {applyType === "milestone" && (
+            <div className="border border-black rounded-lg p-4 flex flex-col gap-4">
+              <Label className="text-primary font-semibold">Milestones</Label>
+              {milestones.map((ms, idx) => (
+                <div key={idx} className="flex gap-2 items-center">
+                  <Input
+                    placeholder="Stage"
+                    value={ms.stage}
+                    onChange={(e) =>
+                      handleMilestoneChange(idx, "stage", e.target.value)
+                    }
+                    className="text-primary"
+                  />
+                  <div className="flex flex-col gap-1">
+                    <Input
+                      placeholder="Amount in ETH"
+                      type="text"
+                      value={ms.amount}
+                      onChange={(e) =>
+                        handleMilestoneChange(idx, "amount", e.target.value)
+                      }
+                      className="text-primary"
+                    />
+                    <p className="text-xs text-gray-500">
+                      Enter amount in ETH. Will convert to smart contract unit
+                      automatically.
+                    </p>
+                  </div>
+                  <Input
+                    type="date"
+                    value={ms.deadline}
+                    onChange={(e) =>
+                      handleMilestoneChange(idx, "deadline", e.target.value)
+                    }
+                    className="text-primary"
+                  />
+                </div>
+              ))}
+              <Button size="sm" onClick={addMilestone} className="w-max mt-2">
+                + Add Milestone
+              </Button>
+            </div>
+          )}
+
           {/* SUBMIT */}
-          <Button onClick={handleSubmit} className="mt-4 w-full" disabled={loading}>
-            {loading ? "Sending..." : "Apply Now"}
-          </Button>
+          <div className="pb-3">
+            <Button
+              onClick={handleSubmit}
+              className="mt-4 w-full"
+              disabled={loading}
+            >
+              {loading ? "Sending..." : "Apply Now"}
+            </Button>
+          </div>
         </div>
       </div>
     </div>

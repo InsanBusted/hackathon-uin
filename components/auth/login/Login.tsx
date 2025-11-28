@@ -24,7 +24,6 @@ const Login = ({
   const form = useForm<LoginForm>();
   const onSubmit = async (data: LoginForm) => {
     try {
-
       const res = await fetch("/api/auth/login", {
         method: "POST",
         headers: {
@@ -43,7 +42,6 @@ const Login = ({
 
       alert("Login Successfully!");
 
-      
       const role = result?.user?.role;
 
       // arahkan berdasarkan role
@@ -53,7 +51,7 @@ const Login = ({
           break;
 
         case "CLIENT":
-          window.location.href = "/";
+          window.location.href = "/dashboard/company";
           break;
 
         default:

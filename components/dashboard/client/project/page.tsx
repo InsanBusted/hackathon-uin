@@ -2,9 +2,9 @@
 
 import { getFromCookies } from "@/lib/cookies";
 import { useEffect, useState } from "react";
-import TableLowongan from "./TableLowongan";
+import TableProject from "./TableProject";
 
-const LowonganPage = () => {
+const ProjectPage = () => {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [data, setData] = useState<any[]>([]);
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -22,13 +22,13 @@ const LowonganPage = () => {
     }
 
     fetchData();
-  }, [user]); // user sudah stabil, tidak berubah setiap render
+  }, [user]);
 
   return (
     <div className="w-full min-h-screen bg-white p-4">
-      <TableLowongan data={data} />
+      <TableProject data={data} />
     </div>
   );
 };
 
-export default LowonganPage;
+export default ProjectPage;

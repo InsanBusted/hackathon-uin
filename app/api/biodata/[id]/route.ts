@@ -4,10 +4,10 @@ import { prisma } from "@/lib/prisma";
 
 export async function GET(
   _req: Request,
-  { params }: { params: Promise<{ id: string }> }
+  { params }: { params: { id: string } }
 ) {
   try {
-    const resolvedParams = await params; 
+    const resolvedParams = await params;
     const userId = resolvedParams.id;
     if (!userId) {
       return NextResponse.json(
@@ -25,6 +25,7 @@ export async function GET(
         fullName: true,
         address: true,
         phone: true,
+        email: true,
         documentUrl: true,
         portfolio: true,
       },
@@ -36,7 +37,7 @@ export async function GET(
       );
     }
     return NextResponse.json({ biodata });
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
     console.error(error);
     return NextResponse.json(
@@ -51,11 +52,14 @@ export async function POST(
   { params }: { params: Promise<{ id: string }> } // params sebagai Promise
 ) {
   try {
-    const resolvedParams = await params;  // <--- unwrap Promise
+    const resolvedParams = await params; // <--- unwrap Promise
     const userId = resolvedParams.id;
 
     if (!userId) {
-      return NextResponse.json({ message: "userId tidak ditemukan" }, { status: 400 });
+      return NextResponse.json(
+        { message: "userId tidak ditemukan" },
+        { status: 400 }
+      );
     }
 
     const body = await req.json();
@@ -84,7 +88,10 @@ export async function POST(
     });
 
     if (existing) {
-      return NextResponse.json({ message: "Biodata sudah dibuat" }, { status: 400 });
+      return NextResponse.json(
+        { message: "Biodata sudah dibuat" },
+        { status: 400 }
+      );
     }
 
     const biodata = await prisma.biodata.create({
@@ -103,9 +110,12 @@ export async function POST(
     });
 
     return NextResponse.json({ message: "Biodata berhasil dibuat", biodata });
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
     console.error(error);
-    return NextResponse.json({ message: error.message || "Server error" }, { status: 500 });
+    return NextResponse.json(
+      { message: error.message || "Server error" },
+      { status: 500 }
+    );
   }
 }

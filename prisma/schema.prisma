@@ -47,6 +47,7 @@ model Biodata {
   email       String?
   phone       String?
   documentUrl String?
+  statusAuto  Boolean  @default(false)
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 
@@ -100,17 +101,30 @@ model Bidang {
 }
 
 model SendLowongan {
-  id          String   @id @default(cuid())
+  id          String    @id @default(cuid())
   lowonganId  String
-  biodataId   String? // relasi opsional ke biodata
+  biodataId   String?
   email       String
   coverLetter String?
-  createdAt   DateTime @default(now())
-  sentAt      DateTime @default(now())
+  createdAt   DateTime  @default(now())
+  sentAt      DateTime  @default(now())
+  price       Float?
+  endDate     DateTime?
 
-  // Relasi
-  lowongan Lowongan @relation(fields: [lowonganId], references: [id])
-  biodata  Biodata? @relation(fields: [biodataId], references: [id])
+  lowongan   Lowongan                @relation(fields: [lowonganId], references: [id])
+  biodata    Biodata?                @relation(fields: [biodataId], references: [id])
+  milestones SendLowonganMilestone[]
+  status     SendLowonganStatus?
+}
+
+model SendLowonganMilestone {
+  id             String   @id @default(cuid())
+  sendLowonganId String
+  stage          String
+  amount         Float
+  deadline       DateTime
+
+  sendLowongan SendLowongan @relation(fields: [sendLowonganId], references: [id])
 }
 
 model Skill {
@@ -121,4 +135,19 @@ model Skill {
 
   biodata   Biodata? @relation("BiodataSkills", fields: [biodataId], references: [id])
   biodataId String?
+}
+
+enum ApplicationStatus {
+  PENDING
+  ACCEPTED
+  REJECTED
+}
+
+model SendLowonganStatus {
+  id             String            @id @default(cuid())
+  sendLowonganId String            @unique
+  status         ApplicationStatus @default(PENDING)
+  updatedAt      DateTime          @default(now())
+
+  sendLowongan SendLowongan @relation(fields: [sendLowonganId], references: [id])
 }

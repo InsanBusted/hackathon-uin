@@ -8,7 +8,7 @@ import ModalApply from "./modalApply";
 import { getFromCookies } from "@/lib/cookies";
 
 interface DetailJobProps {
-  id: string; // <-- id lowongan dari database
+  id: string; 
   title: string;
   company: string;
   location: string;
@@ -22,7 +22,7 @@ interface DetailJobProps {
 }
 
 const DetailJob1 = ({
-  id, // lowonganId
+  id,
   title,
   company,
   location,

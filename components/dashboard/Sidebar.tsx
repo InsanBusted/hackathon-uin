@@ -11,8 +11,9 @@ import {
   SidebarMenuItem,
   SidebarMenuButton,
 } from "@/components/ui/sidebar";
+import { getFromCookies } from "@/lib/cookies";
 
-import { Home, Briefcase, User, Settings } from "lucide-react";
+import { Home, Briefcase } from "lucide-react";
 import Image from "next/image";
 
 import Link from "next/link";
@@ -21,20 +22,29 @@ import { usePathname } from "next/navigation";
 export function AppSidebar() {
   const pathname = usePathname();
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const user: any = getFromCookies("user");
+
+  const role = user?.role?.toLowerCase();
+
+  // console.log(role);
+
   const menuItems = [
-    { label: "Dashboard", icon: Home, href: "/dashboard" },
-    { label: "Lowongan", icon: Briefcase, href: "/dashboard/lowongan" },
-    { label: "Profile", icon: User, href: "/dashboard/profile" },
-    { label: "Settings", icon: Settings, href: "/dashboard/settings" },
+    { label: "Dashboard", icon: Home, href: `/dashboard/${role}` },
+    {
+      label: role === "client" ? "Project" : "Lowongan",
+      icon: Briefcase,
+      href: `/dashboard/${role}/${role === "client" ? "project" : "lowongan"}`,
+    },
   ];
 
   return (
-    <Sidebar className="border-r border-neutral-800 bg-white text-neutral-200">
-      <SidebarHeader>
+    <Sidebar className="border-r border-neutral-200 text-primary">
+      <SidebarHeader className="flex items-center pt-4">
         <Image
           src="/lokerin.png"
           alt="Lokerin Logo"
-          width={80}
+          width={150}
           height={50}
           priority
         />
@@ -47,8 +57,12 @@ export function AppSidebar() {
           <SidebarMenu>
             {menuItems.map((item) => (
               <SidebarMenuItem key={item.href}>
-                <SidebarMenuButton asChild isActive={pathname === item.href}>
-                  <Link href={item.href}>
+                <SidebarMenuButton
+                  asChild
+                  isActive={pathname === item.href}
+                  className="[&.active]:bg-primary/10 [&.active]:text-primary"
+                >
+                  <Link href={item.href} className="flex items-center gap-2">
                     <item.icon className="size-5" />
                     <span>{item.label}</span>
                   </Link>
@@ -59,7 +73,7 @@ export function AppSidebar() {
         </SidebarGroup>
       </SidebarContent>
 
-      <SidebarFooter className="text-xs text-neutral-400 px-3 pb-3">
+      <SidebarFooter className="text-xs px-3 pb-3 text-primary/50">
         © 2024 LOKERIN
       </SidebarFooter>
     </Sidebar>
