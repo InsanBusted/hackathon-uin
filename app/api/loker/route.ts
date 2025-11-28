@@ -12,6 +12,7 @@ const createLowonganSchema = z.object({
   company: z.string().min(2),
   location: z.string().min(2),
   bidangId: z.string().optional(),
+   status: z.enum(["PROJECT", "LOKER"]).default("LOKER"),
 
   kualifikasi: z.array(z.string()).default([]),
   tugasTanggungJawab: z.array(z.string()).default([]),
@@ -69,6 +70,7 @@ export async function POST(req: NextRequest) {
         title: data.title,
         description: data.description,
         company: data.company,
+        status: data.status,
         location: data.location,
         bidangId: data.bidangId ?? null,
 

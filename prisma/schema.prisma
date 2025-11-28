@@ -50,7 +50,7 @@ model Biodata {
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 
-  portfolio   String[] @default([])
+  portfolio String[] @default([])
 
   skills   Skill[] @relation("BiodataSkills")
   user     User    @relation(fields: [userId], references: [id])
@@ -58,7 +58,7 @@ model Biodata {
   bidangId String?
 
   sendLowongans SendLowongan[]
-} 
+}
 
 enum Status {
   PROJECT
@@ -66,18 +66,19 @@ enum Status {
 }
 
 model Lowongan {
-  id          String   @id @default(cuid())
-  userId      String
-  slug        String   @unique
-  title       String
-  description String
-  company     String
-  location    String
-  status      Status @default(LOKER)
-  startDate   DateTime @default("2025-12-01T00:00:00.000Z")
-  endDate     DateTime @default("2025-12-31T00:00:00.000Z")
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id           String   @id @default(cuid())
+  userId       String
+  slug         String   @unique
+  title        String
+  description  String
+  company      String?
+  organization String?
+  location     String
+  status       Status   @default(LOKER)
+  startDate    DateTime @default("2025-12-01T00:00:00.000Z")
+  endDate      DateTime @default("2025-12-31T00:00:00.000Z")
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
 
   kualifikasi         String[] @default([])
   tugasTanggungJawab  String[] @default([])
@@ -90,7 +91,6 @@ model Lowongan {
   sendLowongans SendLowongan[]
 }
 
-
 model Bidang {
   id       String     @id @default(uuid())
   slug     String     @unique
@@ -102,7 +102,7 @@ model Bidang {
 model SendLowongan {
   id          String   @id @default(cuid())
   lowonganId  String
-  biodataId   String?   // relasi opsional ke biodata
+  biodataId   String? // relasi opsional ke biodata
   email       String
   coverLetter String?
   createdAt   DateTime @default(now())
@@ -112,7 +112,6 @@ model SendLowongan {
   lowongan Lowongan @relation(fields: [lowonganId], references: [id])
   biodata  Biodata? @relation(fields: [biodataId], references: [id])
 }
-
 
 model Skill {
   id        String   @id @default(cuid())

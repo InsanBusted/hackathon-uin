@@ -1,6 +1,37 @@
 import { NextRequest, NextResponse } from "next/server";
 import {prisma} from "@/lib/prisma"; // prisma client
 
+export const GET = async (req: NextRequest) => {
+  try {
+    const url = new URL(req.url);
+    const lowonganId = url.searchParams.get("lowonganId");
+
+    const whereClause = lowonganId ? { lowonganId } : {};
+
+    const sendLowongans = await prisma.sendLowongan.findMany({
+      where: whereClause,
+      include: {
+        biodata: true, // termasuk biodata user jika ada relasi
+        lowongan: true, // termasuk data lowongan jika mau
+      },
+      orderBy: {
+        createdAt: "desc",
+      },
+    });
+
+    return NextResponse.json({
+      message: "Berhasil mengambil data lamaran",
+      data: sendLowongans,
+    });
+  } catch (err) {
+    console.error(err);
+    return NextResponse.json(
+      { message: "Terjadi kesalahan saat mengambil data lamaran" },
+      { status: 500 }
+    );
+  }
+};
+
 export const POST = async (req: NextRequest) => {
   try {
     const formData = await req.formData();
