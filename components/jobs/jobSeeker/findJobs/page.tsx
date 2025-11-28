@@ -1,26 +1,26 @@
 "use client";
 
 import { Search } from "lucide-react";
+import { useEffect, useState } from "react";
 import { CheckboxSelect } from "@/components/ui/CheckboxSelect";
 import CardJobs from "./CardJobs";
 import DetailJob1 from "./DetailJob1";
 
-interface DropdownData {
-  jobType: string[];
-  workplace: string[];
-  location: string[];
-  jobFunction: string[];
-  jobLevel: string[];
+interface Job {
+  id: string;
+  title: string;
+  company: string;
+  location: string;
+  workplace?: string;
+  jobType?: string;
+  createdAt?: string;
+  logoUrl?: string;
+  startDate: string;
+  endDate: string
 }
 
-const dropdownData: DropdownData = {
-  jobType: [
-    "Karyawan Tetap",
-    "Magang",
-    "Karyawan Kontrak",
-    "Mitra",
-    "Freelance",
-  ],
+const dropdownData = {
+  jobType: ["Karyawan Tetap", "Magang", "Karyawan Kontrak", "Mitra", "Freelance"],
   workplace: ["Work From Office", "Work From Home", "Hybrid"],
   location: [
     "Kota Bekasi, Jawa Barat",
@@ -46,6 +46,29 @@ const dropdownData: DropdownData = {
 };
 
 const FindJobs = () => {
+  const [jobs, setJobs] = useState<Job[]>([]);
+  const [selectedJob, setSelectedJob] = useState<Job | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    async function fetchJobs() {
+      try {
+        const res = await fetch("/api/loker");
+        const data = await res.json();
+        setJobs(data);
+
+        // auto set detail pertama jika ada
+        if (data.length > 0) {
+          setSelectedJob(data[0]);
+        }
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    fetchJobs();
+  }, []);
+
   return (
     <div className="w-full flex flex-col px-6 md:px-20 mt-5 min-h-screen gap-6">
       {/* Search Box */}
@@ -60,11 +83,10 @@ const FindJobs = () => {
         />
       </div>
 
-      {/* FILTERS FLEX */}
+      {/* FILTERS */}
       <div className="flex flex-col md:flex-row gap-4 w-full flex-wrap justify-around">
         {Object.keys(dropdownData).map((key) => {
-          const typedKey = key as keyof DropdownData;
-
+          const typedKey = key as keyof typeof dropdownData;
           return (
             <div key={key} className="w-full md:w-auto">
               <CheckboxSelect
@@ -76,12 +98,18 @@ const FindJobs = () => {
         })}
       </div>
 
+      {/* MAIN CONTENT */}
       <div className="grid grid-cols-3 gap-3">
         <div>
-          <CardJobs />
+          <CardJobs jobs={jobs} loading={loading} onSelect={setSelectedJob} />
         </div>
+
         <div className="col-span-2">
-          <DetailJob1 job={job}/>
+          {selectedJob ? (
+            <DetailJob1 {...selectedJob} />
+          ) : (
+            <p className="text-center">Pilih lowongan untuk melihat detail.</p>
+          )}
         </div>
       </div>
     </div>
