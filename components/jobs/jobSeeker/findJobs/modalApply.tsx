@@ -6,10 +6,12 @@ import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { getFromCookies } from "@/lib/cookies";
 import Image from "next/image";
+import { Input } from "@/components/ui/input";
 
 interface ModalApplyProps {
   onClose: () => void;
   lowonganId: string;
+  userId?: string | null;
 }
 
 interface Biodata {
@@ -20,25 +22,73 @@ interface Biodata {
   imgProfile?: string;
 }
 
-const ModalApply: React.FC<ModalApplyProps> = ({ onClose, lowonganId }) => {
+const ModalApply = ({ onClose, lowonganId, userId }: ModalApplyProps) => {
   const [biodata, setBiodata] = useState<Biodata | null>(null);
   const [coverLetter, setCoverLetter] = useState("");
-  const [files, setFiles] = useState<File[]>([]);
+  const [files, setFiles] = useState<File[]>([]); // index 0 = CV, 1+ = portfolio
   const [loading, setLoading] = useState(false);
+  const [email, setEmail] = useState<string | null>(null);
 
-  // Ambil biodata dari cookie
+  // Ambil email dari cookie
   useEffect(() => {
-    const user = getFromCookies<{ id: string; email: string; username?: string }>("user");
-    if (user) {
-      setBiodata({
-        fullName: user.username,
-        email: user.email,
-        documentUrl: "", // bisa diisi jika ada URL default
-        portfolio: [],   // bisa diisi jika ada portfolio default
-        imgProfile: "",  // bisa diisi dengan avatar/default
-      });
+    const user = getFromCookies<{ email: string; username?: string }>("user");
+    if (user && user.email) {
+      setEmail(user.email);
     }
   }, []);
+
+  // Fetch biodata dari endpoint API
+  useEffect(() => {
+    if (!userId) return;
+
+    const fetchBiodata = async () => {
+      try {
+        const res = await fetch(`/api/biodata/${userId}`);
+        if (!res.ok) throw new Error("Gagal mengambil biodata");
+        const data = await res.json();
+        const bio: Biodata = data.biodata;
+
+        setBiodata(bio);
+
+        // Fetch CV dan portfolio lama jadi File object
+        const oldFiles: File[] = [];
+
+        // CV
+        if (bio.documentUrl) {
+          try {
+            const resCV = await fetch(bio.documentUrl);
+            const blobCV = await resCV.blob();
+            oldFiles[0] = new File([blobCV], bio.documentUrl.split("/").pop() || "cv.pdf", {
+              type: blobCV.type,
+            });
+          } catch (err) {
+            console.error("Gagal fetch CV:", err);
+          }
+        }
+
+        // Portfolio
+        if (bio.portfolio && bio.portfolio.length > 0) {
+          for (let i = 0; i < bio.portfolio.length; i++) {
+            try {
+              const resP = await fetch(bio.portfolio[i]);
+              const blobP = await resP.blob();
+              oldFiles[i + 1] = new File([blobP], bio.portfolio[i].split("/").pop() || `portfolio${i}.pdf`, {
+                type: blobP.type,
+              });
+            } catch (err) {
+              console.error("Gagal fetch portfolio:", err);
+            }
+          }
+        }
+
+        setFiles(oldFiles);
+      } catch (err) {
+        console.error(err);
+      }
+    };
+
+    fetchBiodata();
+  }, [userId]);
 
   const handleFileChange = (index: number, file: File) => {
     setFiles((prev) => {
@@ -49,17 +99,27 @@ const ModalApply: React.FC<ModalApplyProps> = ({ onClose, lowonganId }) => {
   };
 
   const handleSubmit = async () => {
-    if (!biodata?.email) return alert("Email tidak ditemukan");
-    if (!coverLetter) return alert("Motivation wajib diisi");
+    if (!email) {
+      alert("Email tidak ditemukan");
+      return;
+    }
+
+    if (!coverLetter) {
+      alert("Motivation wajib diisi");
+      return;
+    }
 
     setLoading(true);
 
     try {
       const formData = new FormData();
       formData.append("lowonganId", lowonganId);
-      formData.append("email", biodata.email);
+      formData.append("email", email);
       formData.append("coverLetter", coverLetter);
-      files.forEach((file, idx) => formData.append(`file${idx}`, file));
+
+      files.forEach((file, idx) => {
+        if (file) formData.append(`file${idx}`, file);
+      });
 
       const res = await fetch("/api/sendLowongan", {
         method: "POST",
@@ -70,6 +130,7 @@ const ModalApply: React.FC<ModalApplyProps> = ({ onClose, lowonganId }) => {
 
       alert("Lamaran berhasil dikirim!");
       onClose();
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
       alert(err.message || "Terjadi kesalahan");
     } finally {
@@ -95,11 +156,12 @@ const ModalApply: React.FC<ModalApplyProps> = ({ onClose, lowonganId }) => {
             Register For This Vacancy
           </h2>
           <p className="text-center text-[#0A2F5A] text-sm">
-            Make sure all the information and files below are correct and match your data.
+            Make sure all the information and files below are correct and match
+            your data.
           </p>
 
           {/* PERSONAL DATA */}
-          <div className="border rounded-lg p-4 flex items-center gap-4">
+          <div className="border border-black rounded-lg p-4 flex items-center gap-4">
             {biodata?.imgProfile && (
               <Image
                 src={biodata.imgProfile}
@@ -108,47 +170,85 @@ const ModalApply: React.FC<ModalApplyProps> = ({ onClose, lowonganId }) => {
               />
             )}
             <div>
-              <p className="font-semibold">{biodata?.fullName}</p>
-              <p className="text-sm text-gray-500">{biodata?.email}</p>
+              <p className="font-semibold text-primary">{biodata?.fullName}</p>
+              <p className="text-sm text-primary">{email}</p>
             </div>
           </div>
 
           {/* MOTIVATION */}
-          <div className="flex flex-col">
-            <Label htmlFor="coverLetter">Motivation To Register *</Label>
+          <div className="border border-black rounded-lg p-4 flex flex-col">
+            <Label className="text-primary font-semibold" htmlFor="coverLetter">
+              Motivation To Register *
+            </Label>
             <Textarea
               id="coverLetter"
               placeholder="What motivates you to apply for this position? (Max 1000 characters)"
               value={coverLetter}
               onChange={(e) => setCoverLetter(e.target.value)}
               rows={6}
-              className="mt-2"
+              className="mt-2 text-primary"
             />
           </div>
 
-          {/* FILES */}
-          {["CV", "KTP", "KTM", "Other Documents"].map((label, index) => (
-            <div key={index} className="flex flex-col">
-              <Label>{label} *</Label>
-              <input
-                type="file"
-                onChange={(e) => {
-                  if (e.target.files?.[0]) handleFileChange(index, e.target.files[0]);
-                }}
-                className="mt-2"
-              />
-              {files[index] && (
-                <p className="text-sm text-gray-500 mt-1">{files[index].name}</p>
+          {/* Document & Portfolio */}
+          <div className="flex flex-col gap-4">
+            {/* CV */}
+            <div className="flex flex-col gap-1">
+              <Label className="text-primary">CV</Label>
+              {biodata?.documentUrl && (
+                <p className="text-sm text-primary">
+                  Current file:{" "}
+                  <a
+                    href={biodata.documentUrl}
+                    target="_blank"
+                    className="underline"
+                  >
+                    View CV
+                  </a>
+                </p>
               )}
+              <Input
+                type="file"
+                className="text-primary"
+                onChange={(e) =>
+                  e.target.files && handleFileChange(0, e.target.files[0])
+                }
+              />
             </div>
-          ))}
+
+            {/* Portfolio */}
+            <div className="flex flex-col gap-1">
+              <Label className="text-primary">PORTFOLIO</Label>
+              {biodata?.portfolio && biodata.portfolio.length > 0 && (
+                <ul className="text-sm text-primary list-disc ml-4">
+                  {biodata.portfolio.map((file, idx) => (
+                    <li key={idx}>
+                      <a href={file} target="_blank" className="underline">
+                        {file.split("/").pop()}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              )}
+              <Input
+                type="file"
+                className="text-primary"
+                multiple
+                onChange={(e) => {
+                  if (e.target.files) {
+                    const newFiles = Array.from(e.target.files);
+                    setFiles((prev) => [
+                      prev[0], // pertahankan CV
+                      ...newFiles, // portfolio di index 1+
+                    ]);
+                  }
+                }}
+              />
+            </div>
+          </div>
 
           {/* SUBMIT */}
-          <Button
-            onClick={handleSubmit}
-            className="mt-4 w-full"
-            disabled={loading || !biodata?.email}
-          >
+          <Button onClick={handleSubmit} className="mt-4 w-full" disabled={loading}>
             {loading ? "Sending..." : "Apply Now"}
           </Button>
         </div>
