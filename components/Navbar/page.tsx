@@ -99,7 +99,7 @@ const Nav = () => {
 
           {user ? (
             <Button className="font-semibold text-white bg-black hover:bg-white/80">
-              <Link href={`/profile/${clearName(user.username)}`}>{user.username}</Link>
+              <Link href={`/profile/${user.id}`}>{user.username}</Link>
             </Button>
           ) : (
             <Button className="font-semibold text-white bg-black hover:bg-white/80">

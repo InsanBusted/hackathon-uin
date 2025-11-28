@@ -1,20 +1,21 @@
-// app/api/biodata/[id]/route.ts
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 
 export async function GET(
   _req: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const resolvedParams = await params;
-    const userId = resolvedParams.id;
+     const resolvedParams = await params; // ✅ unwrap Promise
+  const userId = resolvedParams.id;
+
     if (!userId) {
       return NextResponse.json(
         { message: "userId tidak ditemukan" },
         { status: 400 }
       );
     }
+
     const biodata = await prisma.biodata.findUnique({
       where: { userId },
       select: {
@@ -30,14 +31,16 @@ export async function GET(
         portfolio: true,
       },
     });
+
     if (!biodata) {
       return NextResponse.json(
         { message: "Biodata tidak ditemukan" },
         { status: 404 }
       );
     }
+
     return NextResponse.json({ biodata });
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
     console.error(error);
     return NextResponse.json(

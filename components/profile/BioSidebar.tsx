@@ -1,61 +1,109 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
 import React, { useState } from "react";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Separator } from "@/components/ui/separator";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 interface BioSidebarProps {
   bio: {
     fullName: string;
     phone: string;
     isActive: boolean;
+    userId: string;
   };
 }
 
-const BioSidebar: React.FC<BioSidebarProps> = ({ bio }) => {
+const BioSidebar = ({ bio }: BioSidebarProps) => {
   const [isActive, setIsActive] = useState(bio.isActive);
+  const [showModal, setShowModal] = useState(false);
 
-  const toggleActive = () => {
-    setIsActive(!isActive);
-    console.log("User active:", !isActive);
-    // Panggil API untuk update status jika perlu
+  const toggleActive = async () => {
+    setShowModal(true);
+  };
+
+  const confirmToggle = async () => {
+    try {
+      const res = await fetch(`/api/biodata/${bio.userId}/status`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ statusAuto: !isActive }),
+      });
+
+      const data = await res.json();
+      if (res.ok) {
+        setIsActive(!isActive);
+        console.log("Status updated:", data.updated);
+      } else {
+        console.error(data.message);
+      }
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setShowModal(false);
+    }
   };
 
   return (
-    <div className="w-[300px] bg-white p-5 rounded-xl shadow-sm h-fit">
-      <div className="flex items-center gap-3 border-b pb-4">
-        <div className="w-14 h-14 rounded-full bg-gray-300" />
-        <div className="flex-1">
-          <h2 className="font-semibold text-lg text-primary">{bio.fullName}</h2>
-          <p className="text-sm text-primary">{bio.phone}</p>
-        </div>
+    <Card className="w-[300px] shadow-md rounded-xl">
+      {/* Header */}
+      <CardHeader className="flex flex-col items-center gap-3">
+        <Avatar className="w-20 h-20">
+          <AvatarImage src="" alt={bio.fullName} />
+          <AvatarFallback>{bio.fullName[0]}</AvatarFallback>
+        </Avatar>
+        <CardTitle className="text-center">{bio.fullName}</CardTitle>
+        <p className="text-sm text-muted-foreground">{bio.phone}</p>
         <Button
-          className={`px-4 py-2 ${
-            isActive ? "bg-green-500 text-primary" : "bg-gray-200 text-primary"
-          }`}
+          variant={isActive ? "default" : "outline"}
+          className={isActive ? "bg-green-500 text-white" : ""}
           onClick={toggleActive}
         >
           {isActive ? "Active" : "Inactive"}
         </Button>
-      </div>
+      </CardHeader>
 
-      <div className="mt-6 flex flex-col gap-3 text-primary text-sm">
-        <button className="flex items-center gap-2 p-3 hover:bg-gray-100 rounded-lg">
+      <Separator className="my-3" />
+
+      {/* Menu */}
+      <CardContent className="flex flex-col gap-2">
+        <Button variant="ghost" className="justify-start">
           📄 Curriculum Vitae
-        </button>
-        <button className="flex items-center gap-2 p-3 hover:bg-gray-100 rounded-lg">
+        </Button>
+        <Button variant="ghost" className="justify-start">
           📊 Status Lamaran
-        </button>
-        <button className="flex items-center gap-2 p-3 hover:bg-gray-100 rounded-lg">
+        </Button>
+        <Button variant="ghost" className="justify-start">
           ⚙️ Preferensi Lamaran
-        </button>
-        <button className="flex items-center gap-2 p-3 hover:bg-gray-100 rounded-lg">
+        </Button>
+        <Button variant="ghost" className="justify-start">
           📝 Lapor Ketua
-        </button>
-        <button className="flex items-center gap-2 p-3 text-red-600 hover:bg-red-50 rounded-lg">
+        </Button>
+        <Button variant="ghost" className="justify-start text-red-600 hover:bg-red-50">
           🚪 Keluar
-        </button>
-      </div>
-    </div>
+        </Button>
+      </CardContent>
+
+      {/* Modal */}
+      {showModal && (
+        <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
+          <Card className="w-[300px] p-6 text-center">
+            <p className="mb-4">
+              Apakah Anda yakin ingin {isActive ? "menonaktifkan" : "mengaktifkan"} user ini?
+            </p>
+            <div className="flex justify-around mt-4">
+              <Button variant="outline" onClick={() => setShowModal(false)}>
+                Batal
+              </Button>
+              <Button className="bg-green-500 text-white" onClick={confirmToggle}>
+                Ya, {isActive ? "Nonaktifkan" : "Aktifkan"}
+              </Button>
+            </div>
+          </Card>
+        </div>
+      )}
+    </Card>
   );
 };
 
