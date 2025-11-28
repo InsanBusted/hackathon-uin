@@ -49,11 +49,15 @@ model Biodata {
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 
+  portfolio   String[] @default([])
+
   skills   Skill[] @relation("BiodataSkills")
   user     User    @relation(fields: [userId], references: [id])
   bidang   Bidang? @relation(fields: [bidangId], references: [id])
   bidangId String?
-}
+
+  sendLowongans SendLowongan[]
+} 
 
 model Lowongan {
   id          String   @id @default(cuid())
@@ -90,13 +94,17 @@ model Bidang {
 model SendLowongan {
   id          String   @id @default(cuid())
   lowonganId  String
+  biodataId   String?   // relasi opsional ke biodata
   email       String
   coverLetter String?
   createdAt   DateTime @default(now())
   sentAt      DateTime @default(now())
 
+  // Relasi
   lowongan Lowongan @relation(fields: [lowonganId], references: [id])
+  biodata  Biodata? @relation(fields: [biodataId], references: [id])
 }
+
 
 model Skill {
   id        String   @id @default(cuid())

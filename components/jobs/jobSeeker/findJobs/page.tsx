@@ -57,7 +57,6 @@ const FindJobs = () => {
         const data = await res.json();
         setJobs(data);
 
-        // auto set detail pertama jika ada
         if (data.length > 0) {
           setSelectedJob(data[0]);
         }
