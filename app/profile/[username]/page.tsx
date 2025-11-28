@@ -7,13 +7,16 @@ interface PageProps {
 }
 
 const getBiodata = async (id: string) => {
-  const res = await fetch(`/api/biodata/cmihlr8560000utjgv1exyqle`);
+  const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/biodata/${id}`)
+
   return res.json();
 };
 
 const Page = async ({ params }: PageProps) => {
   const data = await getBiodata(params.username);
   const bio = data.biodata;
+
+  console.log("data",data)
 
   return (
     <div className="min-h-screen ">

@@ -1,6 +1,3 @@
-// ==== SIMULASI SMART CONTRACT ESCROW ====
-
-// Penyimpanan mirip blockchain
 let projects: any = {};
 let nextId = 1;
 
@@ -16,7 +13,7 @@ export function createProject(client: string, freelancer: string, amountEth: num
     clientApproved: false,
     freelancerApproved: false,
     released: false,
-    status: "escrow_hold", // status awal
+    status: "escrow_hold",
     createdAt: new Date(),
   };
 
