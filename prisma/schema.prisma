@@ -44,6 +44,7 @@ model Biodata {
   lastName    String?
   fullName    String
   address     String?
+  email       String?
   phone       String?
   documentUrl String?
   createdAt   DateTime @default(now())
