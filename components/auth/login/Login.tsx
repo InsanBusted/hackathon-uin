@@ -17,8 +17,31 @@ interface LoginProps {
 
 const Login = ({ emailPlaceholder, loginAsText, loginAsLink, hideLinks }: LoginProps) => {
   const form = useForm<LoginForm>();
-  const onSubmit = (data: LoginForm) => {
-    console.log("Form submitted:", data);
+  const onSubmit = async (data: LoginForm) => {
+    try {
+      const res = await fetch("/api/auth/login", {
+        method:"POST",
+        headers: {
+          "Content-Type": "application/json", 
+        },
+        body: JSON.stringify(data),
+      });
+
+      const result = await res.json();
+
+      if(!res.ok) {
+        alert(result.message);
+        return;
+      }
+
+      alert("Login Successfully!");
+
+      // redirect to dashboard or home page
+      window.location.href = "/dashboard";
+    } catch (error) {
+      console.error("Login Error:", error);
+      alert("Internal Server Error");
+    }
   };
 
   return (
