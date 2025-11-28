@@ -26,15 +26,6 @@ const Hero = () => {
 
         {/* Card Search */}
         <div className="bg-white mt-10 p-6 rounded-xl shadow-lg max-w-3xl mx-auto">
-          {/* Tabs */}
-          <div className="flex w-full bg-[#E1F2FF] rounded-full p-1 mb-5">
-            <button className="flex-1 py-2 rounded-full bg-[#009DFF] text-white font-semibold">
-              Cari Talent
-            </button>
-            <button className="flex-1 py-2 rounded-full text-[#009DFF] font-semibold">
-              Cari Pekerjaan
-            </button>
-          </div>
 
           {/* Search bar */}
           <div className="flex items-center gap-3 bg-white border border-gray-300 rounded-full px-4 py-2">
