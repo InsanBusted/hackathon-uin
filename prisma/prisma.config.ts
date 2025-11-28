@@ -22,10 +22,7 @@ const log =
 const prisma =
   global.prisma ??
   new PrismaClient({
-    log,
-    // Add other client options here if needed:
-    // errorFormat: 'pretty',
-    // datasources: { db: { url: process.env.DATABASE_URL } },
+    datasources: { db: { url: process.env.DATABASE_URL } },
   });
 
 // Prevent creating multiple instances in development (hot-reloading)
