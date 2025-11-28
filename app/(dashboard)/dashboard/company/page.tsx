@@ -3,7 +3,7 @@ import React from 'react'
 const page = () => {
   return (
     <div>
-      <h1>reyyyy</h1>
+      <h1>ini halaman dashboard company</h1>
     </div>
   )
 }

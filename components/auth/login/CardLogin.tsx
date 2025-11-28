@@ -18,7 +18,7 @@ import Link from "next/link";
 import { email } from "zod";
 
 interface LoginForm {
-  email: string;
+  identifier: string;
   password: string;
 }
 
@@ -68,7 +68,7 @@ const CardLogin = ({
               {/* Email */}
               <FormField
                 control={form.control}
-                name="email"
+                name="identifier"
                 render={({ field }) => (
                   <FormItem>
                     <FormControl>

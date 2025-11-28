@@ -53,19 +53,29 @@ export async function POST(req: NextRequest) {
       { expiresIn: "7d" }
     );
 
-    return NextResponse.json(
-      {
-        message: "sukses",
-        user: {
-          id: user.id,
-          email: user.email,
-          username: user.username,
-          role: user.role,
-        },
-        token,
-      },
-      { status: 200 }
-    );
+    const response = NextResponse.json(
+  {
+    message: "sukses",
+    user: {
+      id: user.id,
+      email: user.email,
+      username: user.username,
+      role: user.role,
+    },
+  },
+  { status: 200 }
+);
+
+// Simpan token ke cookies
+response.cookies.set("token", token, {
+  httpOnly: true,
+  secure: process.env.NODE_ENV === "production",
+  sameSite: "lax",
+  path: "/",              // penting!
+  maxAge: 60 * 60 * 24 * 7, // 7 hari
+});
+
+return response;
   } catch (error) {
     console.error("LOGIN ERROR", error);
     return NextResponse.json(

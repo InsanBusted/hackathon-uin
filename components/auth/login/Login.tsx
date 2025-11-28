@@ -4,7 +4,7 @@ import CardLogin from "@/components/auth/login/CardLogin";
 import { useForm } from "react-hook-form";
 
 interface LoginForm {
-  email: string;
+  identifier: string;
   password: string;
 }
 
@@ -15,29 +15,50 @@ interface LoginProps {
   hideLinks?: boolean;
 }
 
-const Login = ({ emailPlaceholder, loginAsText, loginAsLink, hideLinks }: LoginProps) => {
+const Login = ({
+  emailPlaceholder,
+  loginAsText,
+  loginAsLink,
+  hideLinks,
+}: LoginProps) => {
   const form = useForm<LoginForm>();
   const onSubmit = async (data: LoginForm) => {
     try {
       const res = await fetch("/api/auth/login", {
-        method:"POST",
+        method: "POST",
         headers: {
-          "Content-Type": "application/json", 
+          "Content-Type": "application/json",
         },
         body: JSON.stringify(data),
+        credentials: "include", // wajib
       });
 
       const result = await res.json();
 
-      if(!res.ok) {
+      if (!res.ok) {
         alert(result.message);
         return;
       }
 
       alert("Login Successfully!");
 
-      // redirect to dashboard or home page
-      window.location.href = "/dashboard";
+      // ambil role user
+      const role = result?.user?.role;
+
+      // arahkan berdasarkan role
+      switch (role) {
+        case "COMPANY":
+          window.location.href = "/dashboard/company";
+          break;
+
+        case "CLIENT":
+          window.location.href = "/dashboard/client";
+          break;
+
+        default:
+          window.location.href = "/";
+          break;
+      }
     } catch (error) {
       console.error("Login Error:", error);
       alert("Internal Server Error");
@@ -46,7 +67,14 @@ const Login = ({ emailPlaceholder, loginAsText, loginAsLink, hideLinks }: LoginP
 
   return (
     <div className="bg-linear-to-b from-[rgba(21,101,192,1)] to-[rgba(10,47,90,1)] flex justify-center items-center min-h-screen p-4">
-      <CardLogin form={form} onSubmit={onSubmit} emailPlaceholder={emailPlaceholder} loginAsText={loginAsText} loginAsLink={loginAsLink} hideLinks={hideLinks} />
+      <CardLogin
+        form={form}
+        onSubmit={onSubmit}
+        emailPlaceholder={emailPlaceholder}
+        loginAsText={loginAsText}
+        loginAsLink={loginAsLink}
+        hideLinks={hideLinks}
+      />
     </div>
   );
 };
