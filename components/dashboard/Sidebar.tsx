@@ -42,7 +42,7 @@ export function AppSidebar() {
 
       <SidebarContent>
         <SidebarGroup>
-          <SidebarGroupLabel>Main Menu</SidebarGroupLabel>
+          <SidebarGroupLabel></SidebarGroupLabel>
 
           <SidebarMenu>
             {menuItems.map((item) => (
