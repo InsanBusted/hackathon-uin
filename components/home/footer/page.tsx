@@ -30,23 +30,46 @@ const Footer = () => {
         >
           Your Next Career Move Starts With One Click
         </h1>
-        <Link href="/login">
-          <Image src="/image/mata.png" width={200} height={120} alt="eye" />
-          <div className="relative w-[200px] sm:w-[260px] md:w-[300px] flex justify-center items-center">
+        <Link
+          href="/login"
+          className="flex flex-col items-center justify-center w-full"
+        >
+          {/* Mata Image */}
+          <Image
+            src="/image/mata.png"
+            width={200}
+            height={120}
+            alt="eye"
+            className="mx-auto"
+          />
+
+          {/* Wrapper Arrow + Circular Text */}
+          <div
+            className="
+      relative 
+      flex justify-center items-center mx-auto 
+      w-[180px] sm:w-[220px] md:w-[260px] lg:w-[300px]
+    "
+          >
+            {/* Circular Text di tengah */}
             <div className="absolute inset-0 flex justify-center items-center">
               <CircularText
-                text=" Get In Touch * Get In Touch * Get In Touch * Get In Touch * Get In Touch * "
+                text=" Get In Touch * Get In Touch * Get In Touch * Get In Touch * "
                 onHover="speedUp"
                 spinDuration={20}
               />
             </div>
 
+            {/* Arrow Image */}
             <Image
               src="/image/arrow.png"
-              width={200}
-              height={120}
+              width={300}
+              height={300}
               alt="arrow"
-              className=" w-[200px] h-auto sm:w-[220px] md:w-[260px] lg:w-[300px] "
+              className="
+        w-[180px] sm:w-[220px] md:w-[260px] lg:w-[300px]
+        h-auto mx-auto
+      "
             />
           </div>
         </Link>
