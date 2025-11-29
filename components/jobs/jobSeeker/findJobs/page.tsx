@@ -16,7 +16,7 @@ interface Job {
   createdAt?: string;
   logoUrl?: string;
   startDate: string;
-  endDate: string;
+  endDate: string
 }
 
 const dropdownData = {
@@ -55,9 +55,11 @@ const FindJobs = () => {
       try {
         const res = await fetch("/api/loker");
         const data = await res.json();
-
         setJobs(data);
-        if (data.length > 0) setSelectedJob(data[0]);
+
+        if (data.length > 0) {
+          setSelectedJob(data[0]);
+        }
       } finally {
         setLoading(false);
       }
@@ -95,15 +97,13 @@ const FindJobs = () => {
         })}
       </div>
 
-      {/* MAIN CONTENT — sudah disamakan dengan freelance */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-        {/* LIST JOBS */}
-        <div className="order-2 md:order-1">
+      {/* MAIN CONTENT */}
+      <div className="grid grid-cols-3 gap-3">
+        <div>
           <CardJobs jobs={jobs} loading={loading} onSelect={setSelectedJob} />
         </div>
 
-        {/* DETAIL */}
-        <div className="md:col-span-2 order-1 md:order-2 hidden md:block">
+        <div className="col-span-2">
           {selectedJob ? (
             <DetailJob1 {...selectedJob} />
           ) : (
