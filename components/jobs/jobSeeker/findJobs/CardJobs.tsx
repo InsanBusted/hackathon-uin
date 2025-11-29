@@ -1,17 +1,24 @@
 "use client";
 
-import { Search } from "lucide-react";
-import { useEffect, useState } from "react";
-import { CheckboxSelect } from "@/components/ui/CheckboxSelect";
-import CardJobs from "./CardJobs";
-import DetailJob1 from "./DetailJob1";
+import Image from "next/image";
+import logo from "@/public/image/bni.png";
+import { Badge } from "@/components/ui/badge";
+import { useState } from "react";
+
+import {
+  Pagination,
+  PaginationContent,
+  PaginationItem,
+  PaginationPrevious,
+  PaginationNext,
+  PaginationLink,
+} from "@/components/ui/pagination";
 
 interface Job {
   id: string;
   title: string;
   company: string;
   location: string;
-  workplace?: string;
   jobType?: string[];
   createdAt?: string;
   logoUrl?: string;
@@ -19,100 +26,142 @@ interface Job {
   endDate: string;
 }
 
-const dropdownData = {
-  jobType: ["Karyawan Tetap", "Magang", "Karyawan Kontrak", "Mitra", "Freelance"],
-  workplace: ["Work From Office", "Work From Home", "Hybrid"],
-  location: [
-    "Kota Bekasi, Jawa Barat",
-    "Kota Jakarta Selatan, DKI Jakarta",
-    "Kota Jakarta Timur, DKI Jakarta",
-    "Kota Semarang, Jawa Tengah",
-    "Kota Bandung, Jawa Barat",
-  ],
-  jobFunction: [
-    "Web Developer",
-    "Sales & Business Development",
-    "Marketing & Communication",
-    "Product Development",
-    "Finance, Legal & Accounting",
-  ],
-  jobLevel: [
-    "Intern",
-    "Staff",
-    "Officer",
-    "Supervisor / Team Leader",
-    "Department Head / Manager",
-  ],
-};
+interface CardJobsProps {
+  jobs: Job[];
+  loading: boolean;
+  onSelect: (job: Job) => void;
+}
 
-const FindJobs = () => {
-  const [jobs, setJobs] = useState<Job[]>([]);
-  const [selectedJob, setSelectedJob] = useState<Job | null>(null);
-  const [loading, setLoading] = useState(true);
+const CardJobs = ({ jobs, loading, onSelect }: CardJobsProps) => {
+  const ITEMS_PER_PAGE = 3;
+  const [page, setPage] = useState(1);
 
-  useEffect(() => {
-    async function fetchJobs() {
-      try {
-        const res = await fetch("/api/loker");
-        const data = await res.json();
+  const totalPages = Math.ceil(jobs.length / ITEMS_PER_PAGE);
 
-        setJobs(data);
-        if (data.length > 0) setSelectedJob(data[0]);
-      } finally {
-        setLoading(false);
-      }
+  const paginatedJobs = jobs.slice(
+    (page - 1) * ITEMS_PER_PAGE,
+    page * ITEMS_PER_PAGE
+  );
+
+  // --- Generate pagination numbers with ellipsis ---
+  const generatePageNumbers = () => {
+    const pages: (number | string)[] = [];
+
+    if (totalPages <= 5) {
+      // Kalau total halaman sedikit → tampilkan semua
+      for (let i = 1; i <= totalPages; i++) pages.push(i);
+      return pages;
     }
 
-    fetchJobs();
-  }, []);
+    pages.push(1); // Always show first page
+
+    if (page > 3) pages.push("...");
+
+    const start = Math.max(2, page - 1);
+    const end = Math.min(totalPages - 1, page + 1);
+
+    for (let i = start; i <= end; i++) pages.push(i);
+
+    if (page < totalPages - 2) pages.push("...");
+
+    pages.push(totalPages); // Always show last page
+
+    return pages;
+  };
+
+  const pageNumbers = generatePageNumbers();
+
+  if (loading) return <p>Loading...</p>;
+  if (jobs.length === 0) return <p>Tidak ada lowongan.</p>;
 
   return (
-    <div className="w-full flex flex-col px-6 md:px-20 mt-5 min-h-screen gap-6">
-      {/* Search Box */}
-      <div className="relative w-full">
-        <input
-          className="bg-white text-main w-full p-3 shadow-lg rounded-lg"
-          placeholder="Search Job"
-        />
-        <Search
-          size={25}
-          className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500"
-        />
-      </div>
-
-      {/* FILTERS */}
-      <div className="flex flex-col md:flex-row gap-4 w-full flex-wrap justify-around">
-        {Object.keys(dropdownData).map((key) => {
-          const typedKey = key as keyof typeof dropdownData;
-          return (
-            <div key={key} className="w-full md:w-auto">
-              <CheckboxSelect
-                label={key.replace(/([A-Z])/g, " $1").toUpperCase()}
-                options={dropdownData[typedKey]}
+    <div className="flex flex-col gap-4">
+      {/* LIST JOBS */}
+      <div className="flex flex-col gap-4">
+        {paginatedJobs.map((job) => (
+          <div
+            key={job.id}
+            onClick={() => onSelect(job)}
+            className="bg-white rounded-md shadow-lg p-5 hover:shadow-xl transition cursor-pointer 
+                   h-auto md:h-[30vh] flex flex-col gap-2"
+          >
+            <div className="flex items-center gap-3">
+              <Image
+                src={job.logoUrl || logo}
+                width={50}
+                height={50}
+                alt="logo perusahaan"
+                className="rounded-md w-[50px] h-[50px] md:w-[60px] md:h-[60px]"
               />
+
+              <div>
+                <p className="font-bold text-gray-500">{job.company}</p>
+                <h2 className="text-lg font-bold text-primary">{job.title}</h2>
+                <p className="text-gray-500 text-sm">{job.location}</p>
+
+                {job.jobType && (
+                  <Badge className="bg-[#F9F5FE] text-primary mt-1">
+                    {job.jobType}
+                  </Badge>
+                )}
+              </div>
             </div>
-          );
-        })}
+
+            <p className="text-black mt-auto text-sm">
+              Apply Before{" "}
+              {new Date(job.endDate).toLocaleDateString("id-ID", {
+                day: "numeric",
+                month: "long",
+                year: "numeric",
+              })}
+            </p>
+          </div>
+        ))}
       </div>
 
-      {/* MAIN CONTENT — sudah disamakan dengan freelance */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-        {/* LIST JOBS */}
-        <div className="order-2 md:order-1">
-          <CardJobs jobs={jobs} loading={loading} onSelect={setSelectedJob} />
-        </div>
+      {/* PAGINATION */}
+      <Pagination>
+        <PaginationContent className="flex flex-wrap justify-center gap-1">
+          <PaginationItem>
+            <PaginationPrevious
+              onClick={() => page > 1 && setPage(page - 1)}
+              className={
+                page === 1
+                  ? "bg-black opacity-50 pointer-events-none"
+                  : "bg-black"
+              }
+            />
+          </PaginationItem>
 
-        {/* DETAIL */}
-        <div className="md:col-span-2 order-1 md:order-2 hidden md:block">
-          {selectedJob ? (
-            <DetailJob1 {...selectedJob} />
-          ) : (
-            <p className="text-center">Pilih lowongan untuk melihat detail.</p>
-          )}
-        </div>
-      </div>
+          {pageNumbers.map((num, idx) => (
+            <PaginationItem key={idx} className="bg-black rounded-lg">
+              {num === "..." ? (
+                <span className="px-3 text-gray-500">...</span>
+              ) : (
+                <PaginationLink
+                  onClick={() => setPage(Number(num))}
+                  isActive={page === num}
+                >
+                  {num}
+                </PaginationLink>
+              )}
+            </PaginationItem>
+          ))}
+
+          <PaginationItem>
+            <PaginationNext
+              onClick={() => page < totalPages && setPage(page + 1)}
+              className={
+                page === totalPages
+                  ? "bg-black opacity-50 pointer-events-none"
+                  : "bg-black"
+              }
+            />
+          </PaginationItem>
+        </PaginationContent>
+      </Pagination>
     </div>
   );
 };
 
-export default FindJobs;
+export default CardJobs;

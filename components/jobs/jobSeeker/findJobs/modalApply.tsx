@@ -120,6 +120,7 @@ const ModalApply = ({ onClose, lowonganId, userId }: ModalApplyProps) => {
 
       alert("Lamaran berhasil dikirim!");
       onClose();
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
       alert(err.message || "Terjadi kesalahan");
     } finally {
