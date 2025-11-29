@@ -4,20 +4,33 @@ import CardCv from "@/components/profile/CardCv";
 import ProfileClient from "@/components/profile/ProfileClient";
 
 interface PageProps {
-  params: { userId: string };
+  params: { userId: string; id: string };
 }
 
 const getBiodata = async (id: string) => {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/biodata/${id}`, {
-    cache: "no-store",
-  });
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_APP_URL}/api/biodata/${id}`,
+    {
+      cache: "no-store",
+    }
+  );
+
+  return res.json();
+};
+
+const getSendLowongan = async (biodataId: string) => {
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_APP_URL}/api/sendLowongan?biodataId=${biodataId}`,
+    {
+      cache: "no-store",
+    }
+  );
 
   return res.json();
 };
 
 const Page = async ({ params }: PageProps) => {
-  
-   const resolvedParams = await params; 
+  const resolvedParams = await params;
   const userId = resolvedParams.userId;
 
   console.log("USER ID:", userId);
@@ -25,6 +38,11 @@ const Page = async ({ params }: PageProps) => {
   const data = await getBiodata(userId);
   const bio = data.biodata;
 
+  const biodataId = bio.id;
+  console.log("BIODATA ID:", biodataId);
+  const dataLowongan = await getSendLowongan(biodataId);
+  const listApply = dataLowongan.data;
+  // console.log(listApply);
 
   if (!bio) {
     return (
@@ -37,8 +55,8 @@ const Page = async ({ params }: PageProps) => {
   return (
     <div className="min-h-screen">
       <Header />
-      
-      <ProfileClient bio={bio}/>
+
+      <ProfileClient bio={bio} listLowongan={listApply} />
     </div>
   );
 };

@@ -102,7 +102,7 @@ const FindJobs = () => {
         <div>
           <CardJobs jobs={jobs} loading={loading} onSelect={setSelectedJob} />
         </div>
-
+        
         <div className="col-span-2">
           {selectedJob ? (
             <DetailJob1 {...selectedJob} />

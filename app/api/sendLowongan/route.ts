@@ -8,6 +8,7 @@ export const GET = async (req: NextRequest) => {
 
     const lowonganId = url.searchParams.get("lowonganId");
     const companyId = url.searchParams.get("companyId");
+    const biodataId = url.searchParams.get("biodataId");
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const whereClause: any = {};
@@ -22,6 +23,11 @@ export const GET = async (req: NextRequest) => {
       whereClause.lowongan = {
         userId: companyId, // ambil lowongan yang dibuat company login
       };
+    }
+
+    // Filter semua lowongan yang sudah dikirim oleh pelamar
+    if (biodataId) {
+      whereClause.biodataId = biodataId; // <-- ini yang benar
     }
 
     const sendLowongans = await prisma.sendLowongan.findMany({

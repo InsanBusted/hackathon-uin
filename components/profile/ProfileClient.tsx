@@ -3,13 +3,16 @@
 import React, { useState } from "react";
 import BioSidebar from "./BioSidebar";
 import CardCv from "./CardCv";
+import CardStatusLamaran from "./CardStatusLamaran";
 
 interface ProfileClientProps {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   bio: any;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  listLowongan: any;
 }
 
-const ProfileClient: React.FC<ProfileClientProps> = ({ bio }) => {
+const ProfileClient = ({ bio, listLowongan }: ProfileClientProps) => {
   const [activeMenu, setActiveMenu] = useState<string | null>("cv");
 
   return (
@@ -19,12 +22,12 @@ const ProfileClient: React.FC<ProfileClientProps> = ({ bio }) => {
         onCvClick={() => setActiveMenu("cv")}
         onStatusClick={() => setActiveMenu("status")}
         onPreferenceClick={() => setActiveMenu("preference")}
-        onLogout={() => console.log("Logout")} 
+        onLogout={() => console.log("Logout")}
       />
 
       <div className="flex-1">
         {activeMenu === "cv" && <CardCv bio={bio} />}
-        {activeMenu === "status" && <div>Status Lamaran Panel</div>}
+        {activeMenu === "status" && <CardStatusLamaran listLowongan={listLowongan} />}
         {activeMenu === "preference" && <div>Preferensi Lamaran Panel</div>}
         {activeMenu === "lapor" && <div>Lapor Ketua Panel</div>}
       </div>

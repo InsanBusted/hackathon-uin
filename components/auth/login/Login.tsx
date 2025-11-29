@@ -51,7 +51,7 @@ const Login = ({
           break;
 
         case "CLIENT":
-          window.location.href = "/dashboard/company";
+          window.location.href = "/dashboard/client";
           break;
 
         default:
