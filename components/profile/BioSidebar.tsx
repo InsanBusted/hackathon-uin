@@ -12,10 +12,15 @@ interface BioSidebarProps {
     phone: string;
     isActive: boolean;
     userId: string;
+    photoProfile: string;
   };
+   onCvClick?: () => void;
+   onStatusClick?: () => void;
+    onPreferenceClick?: () => void;
+    onLogout?: () => void;
 }
 
-const BioSidebar = ({ bio }: BioSidebarProps) => {
+const BioSidebar = ({ bio, onCvClick, onStatusClick, onPreferenceClick, onLogout  }: BioSidebarProps) => {
   const [isActive, setIsActive] = useState(bio.isActive);
   const [showModal, setShowModal] = useState(false);
 
@@ -46,64 +51,72 @@ const BioSidebar = ({ bio }: BioSidebarProps) => {
   };
 
   return (
-    <Card className="w-[300px] shadow-md rounded-xl">
-      {/* Header */}
-      <CardHeader className="flex flex-col items-center gap-3">
-        <Avatar className="w-20 h-20">
-          <AvatarImage src="" alt={bio.fullName} />
-          <AvatarFallback>{bio.fullName[0]}</AvatarFallback>
-        </Avatar>
-        <CardTitle className="text-center">{bio.fullName}</CardTitle>
-        <p className="text-sm text-muted-foreground">{bio.phone}</p>
+    <Card className="w-[300px] bg-white text-primary shadow-md rounded-xl">
+    {/* Header */}
+    <CardHeader className="flex flex-col items-center gap-3">
+      <Avatar className="w-20 h-20">
+        <AvatarImage src={bio.photoProfile} alt="photo profile" />
+        <AvatarFallback className="text-primary">{bio.fullName[0]}</AvatarFallback>
+      </Avatar>
+      <CardTitle className="text-center text-primary">{bio.fullName}</CardTitle>
+      <p className="text-sm text-primary">{bio.phone}</p>
         <Button
-          variant={isActive ? "default" : "outline"}
-          className={isActive ? "bg-green-500 text-white" : ""}
-          onClick={toggleActive}
-        >
-          {isActive ? "Active" : "Inactive"}
-        </Button>
-      </CardHeader>
+        className={`w-full ${
+          isActive
+            ? "bg-green-500 text-white hover:bg-green-600"
+            : "bg-gray-900 text-white hover:bg-gray-200"
+        }`}
+        onClick={toggleActive}
+      >
+        {isActive ? "Lamar Otomatis Sudah Aktif" : "Aktifkan Lamar Otomatis"}
+      </Button>
 
-      <Separator className="my-3" />
+    </CardHeader>
 
-      {/* Menu */}
-      <CardContent className="flex flex-col gap-2">
-        <Button variant="ghost" className="justify-start">
-          📄 Curriculum Vitae
-        </Button>
-        <Button variant="ghost" className="justify-start">
-          📊 Status Lamaran
-        </Button>
-        <Button variant="ghost" className="justify-start">
-          ⚙️ Preferensi Lamaran
-        </Button>
-        <Button variant="ghost" className="justify-start">
-          📝 Lapor Ketua
-        </Button>
-        <Button variant="ghost" className="justify-start text-red-600 hover:bg-red-50">
+    <Separator className="my-3" />
+
+    {/* Menu */}
+    <CardContent className="flex flex-col gap-2">
+        {[
+    { name: "Curriculum Vitae", icon: "📄", onClick: onCvClick },
+    { name: "Status Lamaran", icon: "📊", onClick: onStatusClick },
+    { name: "Preferensi Lamaran", icon: "⚙️", onClick: onPreferenceClick }
+  ].map((menu) => (
+          <Button
+            key={menu.name}
+            variant="ghost"
+            className="justify-start"
+          onClick={menu.onClick}
+          >
+             {menu.icon} {menu.name}
+          </Button>
+        ))}
+        <Button variant="ghost" onClick={onLogout} className="justify-start text-red-600 hover:bg-red-50">
           🚪 Keluar
         </Button>
+        
       </CardContent>
 
-      {/* Modal */}
-      {showModal && (
-        <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
-          <Card className="w-[300px] p-6 text-center">
-            <p className="mb-4">
-              Apakah Anda yakin ingin {isActive ? "menonaktifkan" : "mengaktifkan"} user ini?
-            </p>
-            <div className="flex justify-around mt-4">
-              <Button variant="outline" onClick={() => setShowModal(false)}>
-                Batal
-              </Button>
-              <Button className="bg-green-500 text-white" onClick={confirmToggle}>
-                Ya, {isActive ? "Nonaktifkan" : "Aktifkan"}
-              </Button>
-            </div>
-          </Card>
-        </div>
-      )}
-    </Card>
+    {/* Modal */}
+    {showModal && (
+      <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
+        <Card className="w-[300px] p-6 text-center bg-white text-primary">
+          <p className="mb-4">
+            Apakah Anda yakin ingin {isActive ? "menonaktifkan" : "mengaktifkan"} Lamar Otomatis ini?
+          </p>
+          <div className="flex justify-around mt-4">
+            <Button variant="outline" onClick={() => setShowModal(false)}>
+              Batal
+            </Button>
+            <Button className="bg-green-500 text-white" onClick={confirmToggle}>
+              Ya, {isActive ? "Nonaktifkan" : "Aktifkan"}
+            </Button>
+          </div>
+        </Card>
+      </div>
+    )}
+  </Card>
+
   );
 };
 

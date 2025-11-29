@@ -38,18 +38,19 @@ model Session {
 }
 
 model Biodata {
-  id          String   @id @default(cuid())
-  userId      String   @unique
-  firstName   String
-  lastName    String?
-  fullName    String
-  address     String?
-  email       String?
-  phone       String?
-  documentUrl String?
-  statusAuto  Boolean  @default(false)
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  id           String   @id @default(cuid())
+  userId       String   @unique
+  firstName    String
+  lastName     String?
+  fullName     String
+  address      String?
+  email        String?
+  phone        String?
+  photoProfile String?
+  documentUrl  String?
+  statusAuto   Boolean  @default(false)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
 
   portfolio String[] @default([])
 
@@ -133,8 +134,7 @@ model Skill {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  biodata   Biodata? @relation("BiodataSkills", fields: [biodataId], references: [id])
-  biodataId String?
+  biodata Biodata[] @relation("BiodataSkills")
 }
 
 enum ApplicationStatus {

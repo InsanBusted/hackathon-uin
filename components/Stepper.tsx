@@ -224,7 +224,7 @@ interface StepProps {
   children: ReactNode;
 }
 
-export function Step({ children }: StepProps): JSX.Element {
+export function Step({ children }: StepProps) {
   return <div className="step-default">{children}</div>;
 }
 
@@ -290,6 +290,7 @@ function StepConnector({ isComplete }: StepConnectorProps) {
   );
 }
 
+// eslint-disable-next-line @typescript-eslint/no-empty-object-type
 interface CheckIconProps extends React.SVGProps<SVGSVGElement> {}
 
 function CheckIcon(props: CheckIconProps) {

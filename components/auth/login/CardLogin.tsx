@@ -7,15 +7,12 @@ import {
   Form,
   FormField,
   FormItem,
-  FormLabel,
   FormControl,
-  FormDescription,
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { UseFormReturn } from "react-hook-form";
 import Link from "next/link";
-import { email } from "zod";
 
 interface LoginForm {
   identifier: string;
@@ -73,7 +70,7 @@ const CardLogin = ({
                   <FormItem>
                     <FormControl>
                       <Input
-                        type="email"
+                        type="text"
                         placeholder={emailPlaceholder ?? "Email:"}
                         className="text-black border-none rounded-lg"
                         {...field}
