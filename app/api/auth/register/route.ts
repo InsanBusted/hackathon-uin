@@ -1,15 +1,13 @@
 import { NextRequest, NextResponse } from "next/server";
-import { PrismaClient, Role } from "@prisma/client";
 import { z } from "zod";
 import bcrypt from "bcrypt";
-
-const prisma = new PrismaClient();
+import { prisma } from "@/lib/prisma";
 
 const createUserSchema = z.object({
   email: z.string().email(),
   username: z.string().optional(),
   password: z.string().min(6),
-  role: z.nativeEnum(Role).optional(),
+  role: z.enum(["CLIENT", "COMPANY", "ADMIN", "USER"]),
 });
 
 export async function GET() {
@@ -66,7 +64,7 @@ export async function POST(req: NextRequest) {
         email: data.email,
         username: data.username ?? "",
         password: hashedPassword,
-        role: data.role ?? Role.CLIENT,
+        role: data.role || "user",
       },
     });
 
@@ -77,7 +75,7 @@ export async function POST(req: NextRequest) {
   } catch (error) {
     console.error("[USER POST ERROR]", error);
     return NextResponse.json(
-      { message: "Internal server error"},
+      { message: "Internal server error" },
       { status: 500 }
     );
   }
