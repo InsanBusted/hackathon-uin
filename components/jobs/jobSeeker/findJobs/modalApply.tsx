@@ -15,6 +15,7 @@ interface ModalApplyProps {
 }
 
 interface Biodata {
+  id?: string;
   fullName?: string;
   email?: string;
   documentUrl?: string;
@@ -107,6 +108,11 @@ const ModalApply = ({ onClose, lowonganId, userId }: ModalApplyProps) => {
       formData.append("email", email);
       formData.append("coverLetter", coverLetter);
 
+      // ⬅⬅⬅ FIX BAGIAN INI
+      if (biodata?.id) {
+        formData.append("biodataId", biodata.id);
+      }
+
       files.forEach((file, idx) => {
         if (file) formData.append(`file${idx}`, file);
       });
@@ -120,7 +126,7 @@ const ModalApply = ({ onClose, lowonganId, userId }: ModalApplyProps) => {
 
       alert("Lamaran berhasil dikirim!");
       onClose();
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
       alert(err.message || "Terjadi kesalahan");
     } finally {
@@ -132,7 +138,6 @@ const ModalApply = ({ onClose, lowonganId, userId }: ModalApplyProps) => {
     <div className="fixed inset-0 bg-black/70 z-50 flex justify-center items-center">
       <div className="w-full max-w-2xl bg-white h-[85vh] rounded-lg shadow-lg relative animate-fadeIn overflow-y-auto">
         <div className="max-h-screen flex flex-col p-8 gap-6">
-          
           {/* CLOSE */}
           <Button
             variant="ghost"
@@ -147,7 +152,8 @@ const ModalApply = ({ onClose, lowonganId, userId }: ModalApplyProps) => {
             Register For This Vacancy
           </h2>
           <p className="text-center text-[#0A2F5A] text-sm">
-            Make sure all the information and files below are correct and match your data.
+            Make sure all the information and files below are correct and match
+            your data.
           </p>
 
           {/* PERSONAL */}

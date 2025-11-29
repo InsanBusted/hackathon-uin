@@ -42,7 +42,7 @@ const Page = async ({ params }: PageProps) => {
   console.log("BIODATA ID:", biodataId);
   const dataLowongan = await getSendLowongan(biodataId);
   const listApply = dataLowongan.data;
-  // console.log(listApply);
+  console.log(listApply);
 
   if (!bio) {
     return (
