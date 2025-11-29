@@ -19,7 +19,7 @@ const Hero = () => {
           width={200}
           height={200}
           alt="Gatot"
-          className="absolute -top-1 mt-14"
+          className="absolute -top-1 mt-9"
         />
       {/* CARD UTAMA */}
       <div className="relative flex flex-col items-center justify-center bg-white rounded-lg py-16 px-10 z-50 mt-30">
