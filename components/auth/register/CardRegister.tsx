@@ -15,11 +15,19 @@ import {
 import { Input } from "@/components/ui/input";
 import { UseFormReturn } from "react-hook-form";
 import Link from "next/link";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 interface RegisterForm {
-    fullName:string;
+  fullName: string;
   email: string;
   password: string;
+  role: string;
 }
 
 interface CardRegisterProps {
@@ -61,7 +69,7 @@ const CardRegister = ({ form, onSubmit }: CardRegisterProps) => {
                     <FormControl>
                       <Input
                         type="text"
-                        placeholder="Full Name:"
+                        placeholder="username:"
                         className="text-black border-none rounded-lg"
                         {...field}
                       />
@@ -107,6 +115,33 @@ const CardRegister = ({ form, onSubmit }: CardRegisterProps) => {
                   </FormItem>
                 )}
               />
+
+              {/* Role */}
+              <FormField
+                control={form.control}
+                name="role"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormControl>
+                      <Select
+                        onValueChange={field.onChange}
+                        defaultValue={field.value}
+                      >
+                        <SelectTrigger className="text-black border-none rounded-lg w-full">
+                          <SelectValue placeholder="Select Role" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="CLIENT">CLIENT</SelectItem>
+                          <SelectItem value="COMPANY">COMPANY</SelectItem>
+                          <SelectItem value="USER">USER</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
               <div className="flex justify-center mt-4">
                 <Button
                   type="submit"
@@ -116,11 +151,14 @@ const CardRegister = ({ form, onSubmit }: CardRegisterProps) => {
                 </Button>
               </div>
               <div className="flex flex-col justify-center items-center">
-                <p className="text-sm text-black">Have an account?
-                  <Link
-                    href="/login"><span className="text-black font-bold hover:underline ml-1">Sign In</span>
+                <p className="text-sm text-black">
+                  Have an account?
+                  <Link href="/login">
+                    <span className="text-black font-bold hover:underline ml-1">
+                      Sign In
+                    </span>
                   </Link>
-                  </p>
+                </p>
               </div>
             </form>
           </Form>

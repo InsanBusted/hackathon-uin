@@ -82,15 +82,16 @@ const CardJobs = ({ jobs, loading, onSelect }: CardJobsProps) => {
           <div
             key={job.id}
             onClick={() => onSelect(job)}
-            className="bg-white rounded-md shadow-lg p-5 hover:shadow-xl transition cursor-pointer h-[30vh] flex flex-col gap-2"
+            className="bg-white rounded-md shadow-lg p-5 hover:shadow-xl transition cursor-pointer 
+                   h-auto md:h-[30vh] flex flex-col gap-2"
           >
             <div className="flex items-center gap-3">
               <Image
                 src={job.logoUrl || logo}
-                width={60}
-                height={60}
+                width={50}
+                height={50}
                 alt="logo perusahaan"
-                className="rounded-md"
+                className="rounded-md w-[50px] h-[50px] md:w-[60px] md:h-[60px]"
               />
 
               <div>
@@ -120,24 +121,22 @@ const CardJobs = ({ jobs, loading, onSelect }: CardJobsProps) => {
 
       {/* PAGINATION */}
       <Pagination>
-        <PaginationContent>
-          {/* PREVIOUS */}
+        <PaginationContent className="flex flex-wrap justify-center gap-1">
           <PaginationItem>
             <PaginationPrevious
               onClick={() => page > 1 && setPage(page - 1)}
               className={
                 page === 1
-                  ? "bg-black pointer-events-none opacity-50"
+                  ? "bg-black opacity-50 pointer-events-none"
                   : "bg-black"
               }
             />
           </PaginationItem>
 
-          {/* PAGE NUMBERS WITH ELLIPSIS */}
           {pageNumbers.map((num, idx) => (
             <PaginationItem key={idx} className="bg-black rounded-lg">
               {num === "..." ? (
-                <span className=" px-3 text-gray-500">...</span>
+                <span className="px-3 text-gray-500">...</span>
               ) : (
                 <PaginationLink
                   onClick={() => setPage(Number(num))}
@@ -149,13 +148,12 @@ const CardJobs = ({ jobs, loading, onSelect }: CardJobsProps) => {
             </PaginationItem>
           ))}
 
-          {/* NEXT */}
           <PaginationItem>
             <PaginationNext
               onClick={() => page < totalPages && setPage(page + 1)}
               className={
                 page === totalPages
-                  ? "bg-black pointer-events-none opacity-50"
+                  ? "bg-black opacity-50 pointer-events-none"
                   : "bg-black"
               }
             />

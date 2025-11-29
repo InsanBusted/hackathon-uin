@@ -45,12 +45,12 @@ const CardStatusLamaran = ({ listLowongan }: CardStatusLamaranProps) => {
   return (
     <div>
       {" "}
-      <Card className="mt-6 bg-white text-primary">
-        <CardHeader>
+      <Card className="mt-6 bg-white text-primary w-full">
+        <CardHeader className="px-4 sm:px-6">
           <CardTitle>Status Lamaran Kamu</CardTitle>
         </CardHeader>
 
-        <CardContent>
+        <CardContent className="px-2 sm:px-4">
           {listLowongan.length === 0 ? (
             <p className="text-sm text-gray-500">Belum ada lamaran.</p>
           ) : (
@@ -98,12 +98,9 @@ const CardStatusLamaran = ({ listLowongan }: CardStatusLamaranProps) => {
                       <td className="p-3 border">
                         {item.price ? `${item.price / 1e18} ETH` : "-"}
                       </td>
-                      <td className="p-3 border">
-                        {item.lowongan.status}
-                      </td>
+                      <td className="p-3 border">{item.lowongan.status}</td>
                       <td className="p-3 border">
                         <div>
-                            
                           <Link href={`/profile/status-lowongan/${item.id}`}>
                             <Button>Detail</Button>
                           </Link>
