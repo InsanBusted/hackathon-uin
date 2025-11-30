@@ -29,6 +29,7 @@ const ModalApply = ({ onClose, lowonganId, userId }: ModalApplyProps) => {
   const [files, setFiles] = useState<File[]>([]);
   const [loading, setLoading] = useState(false);
   const [email, setEmail] = useState<string | null>(null);
+  const [biodataId, setBiodataId] = useState("");
 
   useEffect(() => {
     const user = getFromCookies<{ email: string; username?: string }>("user");
@@ -46,6 +47,7 @@ const ModalApply = ({ onClose, lowonganId, userId }: ModalApplyProps) => {
         const data = await res.json();
         const bio: Biodata = data.biodata;
         setBiodata(bio);
+        setBiodataId(data.biodata.id);
 
         const oldFiles: File[] = [];
 
@@ -96,6 +98,8 @@ const ModalApply = ({ onClose, lowonganId, userId }: ModalApplyProps) => {
     });
   };
 
+  console.log("ini data biodata id", biodataId);
+
   const handleSubmit = async () => {
     if (!email) return alert("Email tidak ditemukan");
     if (!coverLetter) return alert("Motivation wajib diisi");
@@ -107,11 +111,9 @@ const ModalApply = ({ onClose, lowonganId, userId }: ModalApplyProps) => {
       formData.append("lowonganId", lowonganId);
       formData.append("email", email);
       formData.append("coverLetter", coverLetter);
+      formData.append("biodataId", biodataId);
 
       // ⬅⬅⬅ FIX BAGIAN INI
-      if (biodata?.id) {
-        formData.append("biodataId", biodata.id);
-      }
 
       files.forEach((file, idx) => {
         if (file) formData.append(`file${idx}`, file);

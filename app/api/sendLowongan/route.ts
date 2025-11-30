@@ -18,12 +18,15 @@ export const GET = async (req: NextRequest) => {
       whereClause.lowonganId = lowonganId;
     }
 
-    // Filter semua pelamar untuk lowongan milik company login
+    console.log(lowonganId);
+
     if (companyId) {
       whereClause.lowongan = {
-        userId: companyId, // ambil lowongan yang dibuat company login
+        userId: companyId,
       };
     }
+
+     console.log(companyId);
 
     // Filter semua lowongan yang sudah dikirim oleh pelamar
     if (biodataId) {
