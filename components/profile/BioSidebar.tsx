@@ -24,7 +24,6 @@ const BioSidebar = ({
   bio,
   onCvClick,
   onStatusClick,
-  onPreferenceClick,
   onLogout,
 }: BioSidebarProps) => {
   const [isActive, setIsActive] = useState(bio.isActive);
@@ -89,11 +88,6 @@ const BioSidebar = ({
         {[
           { name: "Curriculum Vitae", icon: "📄", onClick: onCvClick },
           { name: "Status Lamaran", icon: "📊", onClick: onStatusClick },
-          {
-            name: "Preferensi Lamaran",
-            icon: "⚙️",
-            onClick: onPreferenceClick,
-          },
         ].map((menu) => (
           <Button
             key={menu.name}

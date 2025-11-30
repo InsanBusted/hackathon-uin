@@ -25,7 +25,6 @@ const ProfileClient = ({ bio, listLowongan }: ProfileClientProps) => {
           bio={bio}
           onCvClick={() => setActiveMenu("cv")}
           onStatusClick={() => setActiveMenu("status")}
-          onPreferenceClick={() => setActiveMenu("preference")}
           onLogout={() => console.log("Logout")}
         />
       </div>
@@ -35,7 +34,6 @@ const ProfileClient = ({ bio, listLowongan }: ProfileClientProps) => {
         {activeMenu === "status" && (
           <CardStatusLamaran listLowongan={listLowongan} />
         )}
-        {activeMenu === "preference" && <div>Preferensi Lamaran Panel</div>}
         {activeMenu === "lapor" && <div>Lapor Ketua Panel</div>}
       </div>
     </div>
